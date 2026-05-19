@@ -1,179 +1,470 @@
 import { useState } from "react";
-import { Link } from "wouter";
-import { Check, ChevronRight, CreditCard, Smartphone, Building2, MessageCircle } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import {
+  Check, ChevronRight, CreditCard, Smartphone, Building2, MessageCircle,
+  MapPin, Truck, Lock, Edit2, ShoppingBag
+} from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 
-const steps = ["Delivery", "Shipping", "Payment", "Review"];
+const STEPS = ["Cart", "Address", "Payment", "Review"];
 
-const paymentMethods = [
-  { id: "card", icon: CreditCard, label: "Card Payment" },
-  { id: "mobile", icon: Smartphone, label: "Mobile Money" },
-  { id: "bank", icon: Building2, label: "Bank Transfer" },
-  { id: "whatsapp", icon: MessageCircle, label: "WhatsApp Payment" },
+const PAYMENT_METHODS = [
+  {
+    id: "card", label: "Card Payment", sub: "Visa, Mastercard & more",
+    icon: CreditCard,
+    logos: (
+      <div className="flex items-center gap-1">
+        <div className="bg-blue-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded">VISA</div>
+        <div className="w-6 h-4 rounded-sm overflow-hidden flex">
+          <div className="flex-1 bg-red-500" /><div className="flex-1 bg-yellow-400" />
+        </div>
+      </div>
+    ),
+  },
+  {
+    id: "mobile", label: "Mobile Money", sub: "MTN, Airtel, Zamtel",
+    icon: Smartphone,
+    logos: (
+      <div className="flex items-center gap-1">
+        <div className="bg-yellow-400 text-black text-[7px] font-black px-1 py-0.5 rounded">MTN</div>
+        <div className="bg-red-500 text-white text-[7px] font-black px-1 py-0.5 rounded">A</div>
+        <div className="bg-red-700 text-white text-[7px] font-black px-1 py-0.5 rounded">Z</div>
+      </div>
+    ),
+  },
+  {
+    id: "bank", label: "Bank Transfer", sub: "Local & International",
+    icon: Building2, logos: null,
+  },
+  {
+    id: "whatsapp", label: "WhatsApp Pay", sub: "Pay securely on WhatsApp",
+    icon: MessageCircle, logos: null,
+  },
+  {
+    id: "apple", label: "Apple Pay", sub: "Pay with Apple Pay",
+    icon: () => <span className="text-base font-black"></span>,
+    logos: <span className="text-sm font-black text-foreground"> Pay</span>,
+  },
+  {
+    id: "google", label: "Google Pay", sub: "Pay with Google Pay",
+    icon: () => <span className="text-base font-bold text-blue-500">G</span>,
+    logos: <span className="text-xs font-bold text-foreground">G Pay</span>,
+  },
 ];
 
-export default function CheckoutPage() {
-  const [currentStep, setCurrentStep] = useState(0);
-  const [paymentMethod, setPaymentMethod] = useState("card");
-  const [form, setForm] = useState({ name: "", email: "", phone: "", address: "", city: "", country: "Zambia" });
-  const [shipping, setShipping] = useState("standard");
-  const { items } = useCartStore();
-  const subtotal = items.reduce((t, i) => t + i.price * i.qty, 0);
-  const shippingCost = shipping === "express" ? 19.99 : (subtotal >= 100 ? 0 : 9.99);
-  const total = subtotal + shippingCost;
+const ORDER_ITEMS = [
+  {
+    id: "i1",
+    name: "iPhone 15 Pro Max 256GB",
+    variant: "Natural Titanium",
+    qty: 1,
+    price: 1199.00,
+    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=100&q=80",
+  },
+  {
+    id: "i2",
+    name: "AirPods Pro 2 (USB-C)",
+    variant: "White",
+    qty: 1,
+    price: 249.00,
+    image: "https://images.unsplash.com/photo-1606741965234-b2b9b2b1c0b5?w=100&q=80",
+  },
+];
 
-  const handleNext = () => setCurrentStep((s) => Math.min(s + 1, steps.length - 1));
-  const handlePrev = () => setCurrentStep((s) => Math.max(s - 1, 0));
+const SUBTOTAL = ORDER_ITEMS.reduce((s, i) => s + i.price * i.qty, 0);
+const DISCOUNT = 100;
+const TAX = 80.88;
+const TOTAL = SUBTOTAL - DISCOUNT + TAX;
+
+const STATUS_COLORS: Record<string, string> = {
+  "In Transit": "bg-primary/10 text-primary",
+};
+
+export default function CheckoutPage() {
+  const [step, setStep] = useState(1);
+  const [payMethod, setPayMethod] = useState("card");
+  const [cardNum, setCardNum] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cvv, setCvv] = useState("");
+  const [cardName, setCardName] = useState("John Doe");
+  const [saveCard, setSaveCard] = useState(false);
+  const [ordered, setOrdered] = useState(false);
+  const [, navigate] = useLocation();
+
+  const handlePlaceOrder = () => setOrdered(true);
+
+  if (ordered) {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-4 py-10 bg-background">
+        <div className="w-full max-w-sm">
+          {/* Success card */}
+          <div className="rounded-3xl overflow-hidden" style={{ background: "linear-gradient(160deg, #07392f 0%, #0a5544 100%)" }}>
+            <div className="p-8 text-center">
+              <div className="w-16 h-16 rounded-full bg-green-400/20 border-4 border-green-400 flex items-center justify-center mx-auto mb-4">
+                <Check className="w-8 h-8 text-green-400" />
+              </div>
+              <h2 className="text-xl font-black text-white mb-1">Order Placed Successfully!</h2>
+              <p className="text-white/60 text-sm mb-6">Thank you, John! Your order has been placed.</p>
+              <div className="bg-white/10 rounded-2xl p-4 text-left space-y-2.5 mb-6">
+                {[
+                  ["Order ID", "KRY-2024-00012345"],
+                  ["Order Date", "20 May 2024, 09:41 AM"],
+                  ["Total Paid", `$${TOTAL.toFixed(2)}`],
+                  ["Payment Method", PAYMENT_METHODS.find(m => m.id === payMethod)?.label || "Card Payment"],
+                ].map(([label, val]) => (
+                  <div key={label} className="flex items-center justify-between">
+                    <span className="text-white/60 text-xs">{label}</span>
+                    <span className="text-white text-xs font-bold">{val}</span>
+                  </div>
+                ))}
+              </div>
+              <Link href="/track">
+                <button className="w-full py-3.5 bg-primary text-white rounded-2xl font-bold text-sm mb-2.5 hover:bg-primary/90 transition-colors">
+                  Track Order
+                </button>
+              </Link>
+              <Link href="/">
+                <button className="w-full py-3.5 border border-white/30 text-white rounded-2xl font-bold text-sm hover:bg-white/10 transition-colors">
+                  Continue Shopping
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 pb-24 md:pb-10">
-      <h1 className="text-2xl md:text-3xl font-black text-foreground mb-6">Checkout</h1>
+    <div className="max-w-lg mx-auto px-4 py-5 pb-28 min-h-screen">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-1">
+        <h1 className="text-2xl font-black text-foreground">Checkout</h1>
+        <div className="flex items-center gap-1.5 text-xs text-primary font-semibold">
+          <Lock className="w-3.5 h-3.5" /> Secure Checkout
+        </div>
+      </div>
+      <p className="text-xs text-muted-foreground mb-5">Complete your order securely</p>
 
-      {/* Progress */}
-      <div className="flex items-center mb-8">
-        {steps.map((step, i) => (
-          <div key={step} className="flex items-center flex-1">
+      {/* Step indicator */}
+      <div className="flex items-center mb-6">
+        {STEPS.map((s, i) => (
+          <div key={s} className="flex items-center flex-1">
             <div className="flex flex-col items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${i < currentStep ? "bg-primary text-white" : i === currentStep ? "bg-primary text-white ring-4 ring-primary/20" : "bg-muted text-muted-foreground"}`}>
-                {i < currentStep ? <Check className="w-4 h-4" /> : i + 1}
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all border-2
+                ${i < step ? "bg-primary border-primary text-white"
+                  : i === step ? "bg-primary border-primary text-white ring-4 ring-primary/20"
+                  : "bg-background border-border text-muted-foreground"}`}>
+                {i < step ? <Check className="w-3.5 h-3.5" /> : i + 1}
               </div>
-              <span className={`text-[10px] mt-1 font-medium ${i <= currentStep ? "text-primary" : "text-muted-foreground"}`}>{step}</span>
+              <span className={`text-[10px] mt-1 font-bold ${i <= step ? "text-primary" : "text-muted-foreground"}`}>{s}</span>
             </div>
-            {i < steps.length - 1 && <div className={`flex-1 h-0.5 mx-2 transition-all ${i < currentStep ? "bg-primary" : "bg-border"}`} />}
+            {i < STEPS.length - 1 && (
+              <div className={`flex-1 h-0.5 mx-1 -mt-4 transition-all ${i < step ? "bg-primary" : "bg-border"}`} />
+            )}
           </div>
         ))}
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Main content */}
-        <div className="lg:col-span-2">
-          {currentStep === 0 && (
-            <div className="bg-card border border-border rounded-2xl p-5">
-              <h2 className="text-lg font-bold text-foreground mb-4">Delivery Address</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[["Full Name", "name", "text"], ["Email Address", "email", "email"], ["Phone Number", "phone", "tel"], ["Street Address", "address", "text"], ["City", "city", "text"], ["Country", "country", "text"]].map(([label, field, type]) => (
-                  <div key={field} className={field === "address" ? "md:col-span-2" : ""}>
-                    <label className="block text-xs font-semibold text-muted-foreground mb-1.5">{label}</label>
-                    <input
-                      type={type}
-                      value={form[field as keyof typeof form]}
-                      onChange={(e) => setForm({ ...form, [field]: e.target.value })}
-                      className="w-full px-3 py-2.5 bg-muted border border-border rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/30 text-foreground"
-                      data-testid={`input-${field}`}
-                    />
-                  </div>
-                ))}
+      {/* ── STEP 1: ADDRESS ── */}
+      {step === 1 && (
+        <div className="space-y-3">
+          {/* Delivery Address */}
+          <div className="bg-card border border-border rounded-2xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-bold text-foreground">Delivery Address</h2>
+              <button className="text-xs text-primary font-semibold">Change</button>
+            </div>
+            <div className="flex items-start gap-3 bg-muted/40 rounded-xl p-3">
+              <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                <MapPin className="w-4 h-4 text-primary" />
+              </div>
+              <div className="flex-1">
+                <p className="text-sm font-bold text-foreground">John Doe</p>
+                <p className="text-xs text-muted-foreground">+233 24 123 4567</p>
+                <p className="text-xs text-muted-foreground">123 KRYROS Street, Accra, Greater Accra</p>
+                <p className="text-xs text-muted-foreground">Ghana, 00233</p>
+                <div className="mt-2">
+                  <span className="text-[10px] font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-xl flex items-center gap-1 w-fit">
+                    <Check className="w-2.5 h-2.5" /> Default Address
+                  </span>
+                </div>
               </div>
             </div>
-          )}
+          </div>
 
-          {currentStep === 1 && (
-            <div className="bg-card border border-border rounded-2xl p-5">
-              <h2 className="text-lg font-bold text-foreground mb-4">Shipping Method</h2>
-              <div className="space-y-3">
-                {[
-                  { id: "standard", label: "Standard Delivery", sub: "3-7 business days", price: subtotal >= 100 ? "Free" : "$9.99" },
-                  { id: "express", label: "Express Delivery", sub: "1-3 business days", price: "$19.99" },
-                ].map((opt) => (
-                  <button key={opt.id} onClick={() => setShipping(opt.id)} className={`w-full flex items-center justify-between p-4 rounded-xl border-2 transition-all ${shipping === opt.id ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"}`}>
-                    <div className="flex items-center gap-3">
-                      <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${shipping === opt.id ? "border-primary" : "border-muted-foreground"}`}>
-                        {shipping === opt.id && <div className="w-2 h-2 rounded-full bg-primary" />}
-                      </div>
-                      <div className="text-left">
-                        <p className="text-sm font-semibold text-foreground">{opt.label}</p>
-                        <p className="text-xs text-muted-foreground">{opt.sub}</p>
-                      </div>
+          {/* Delivery estimate */}
+          <div className="bg-card border border-border rounded-2xl p-4 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+                <Truck className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <p className="text-sm font-bold text-foreground">Get it by 20 - 23 May</p>
+                <p className="text-xs text-green-600 font-semibold">Standard Delivery (Free)</p>
+              </div>
+            </div>
+            <button className="text-xs text-primary font-semibold">Change</button>
+          </div>
+
+          {/* Order Items */}
+          <div className="bg-card border border-border rounded-2xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-bold text-foreground">Order Items ({ORDER_ITEMS.length})</h2>
+              <Link href="/cart"><span className="text-xs text-primary font-semibold">Edit Cart</span></Link>
+            </div>
+            <div className="space-y-3">
+              {ORDER_ITEMS.map((item) => (
+                <div key={item.id} className="flex items-center gap-3">
+                  <div className="w-12 h-12 rounded-xl overflow-hidden bg-muted flex-shrink-0">
+                    <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-bold text-foreground">{item.name}</p>
+                    <p className="text-[10px] text-muted-foreground">{item.variant}</p>
+                    <p className="text-[10px] text-muted-foreground">Qty: {item.qty}</p>
+                  </div>
+                  <span className="text-sm font-bold text-foreground flex-shrink-0">${item.price.toLocaleString("en", { minimumFractionDigits: 2 })}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Order Summary */}
+          <div className="bg-card border border-border rounded-2xl p-4">
+            <h2 className="text-sm font-bold text-foreground mb-3">Order Summary</h2>
+            <div className="space-y-2">
+              {[
+                ["Subtotal", `$${SUBTOTAL.toLocaleString("en", { minimumFractionDigits: 2 })}`, false],
+                ["Shipping", "Free", false],
+                ["Discount", `-$${DISCOUNT.toFixed(2)}`, true],
+                ["Tax", `$${TAX.toFixed(2)}`, false],
+              ].map(([label, val, isDis]) => (
+                <div key={label as string} className="flex items-center justify-between">
+                  <span className="text-xs text-muted-foreground">{label}</span>
+                  <span className={`text-xs font-semibold ${isDis ? "text-red-500" : "text-foreground"}`}>{val}</span>
+                </div>
+              ))}
+              <div className="flex items-center justify-between pt-2 border-t border-border">
+                <span className="text-sm font-black text-foreground">Total</span>
+                <span className="text-xl font-black text-primary">${TOTAL.toFixed(2)}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Choose Payment Method */}
+          <div className="bg-card border border-border rounded-2xl p-4">
+            <h2 className="text-sm font-bold text-foreground mb-3">Choose Payment Method</h2>
+            <div className="space-y-2">
+              {PAYMENT_METHODS.map((m) => {
+                const Icon = m.icon;
+                const isSelected = payMethod === m.id;
+                return (
+                  <button key={m.id} onClick={() => setPayMethod(m.id)}
+                    className={`w-full flex items-center gap-3 p-3 rounded-xl border-2 transition-all text-left ${isSelected ? "border-primary bg-primary/5" : "border-border hover:border-primary/30"}`}>
+                    <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${isSelected ? "border-primary" : "border-muted-foreground"}`}>
+                      {isSelected && <div className="w-2 h-2 rounded-full bg-primary" />}
                     </div>
-                    <span className={`text-sm font-bold ${opt.price === "Free" ? "text-green-600" : "text-foreground"}`}>{opt.price}</span>
+                    <div className="w-7 h-7 rounded-lg bg-muted flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-4 h-4 text-muted-foreground" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-bold text-foreground">{m.label}</p>
+                      <p className="text-[10px] text-muted-foreground">{m.sub}</p>
+                    </div>
+                    {m.logos && <div className="flex-shrink-0">{m.logos}</div>}
+                    {!m.logos && <ChevronRight className="w-3.5 h-3.5 text-muted-foreground flex-shrink-0" />}
                   </button>
-                ))}
-              </div>
+                );
+              })}
             </div>
-          )}
+          </div>
+        </div>
+      )}
 
-          {currentStep === 2 && (
-            <div className="bg-card border border-border rounded-2xl p-5">
-              <h2 className="text-lg font-bold text-foreground mb-4">Payment Method</h2>
-              <div className="grid grid-cols-2 gap-3 mb-6">
-                {paymentMethods.map(({ id, icon: Icon, label }) => (
-                  <button key={id} onClick={() => setPaymentMethod(id)} className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${paymentMethod === id ? "border-primary bg-primary/5" : "border-border hover:border-primary/50"}`}>
-                    <Icon className={`w-6 h-6 ${paymentMethod === id ? "text-primary" : "text-muted-foreground"}`} />
-                    <span className="text-xs font-semibold text-center text-foreground">{label}</span>
-                  </button>
-                ))}
+      {/* ── STEP 2: PAYMENT ── */}
+      {step === 2 && (
+        <div className="space-y-3">
+          {/* Selected method header */}
+          <div className="bg-card border border-border rounded-2xl p-4">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-xl bg-muted flex items-center justify-center">
+                  <CreditCard className="w-4 h-4 text-muted-foreground" />
+                </div>
+                <div>
+                  <p className="text-sm font-bold text-foreground">{PAYMENT_METHODS.find(m => m.id === payMethod)?.label}</p>
+                </div>
               </div>
-              {paymentMethod === "card" && (
-                <div className="space-y-3">
-                  <input type="text" placeholder="Card Number" className="w-full px-3 py-2.5 bg-muted border border-border rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/30" />
-                  <div className="grid grid-cols-2 gap-3">
-                    <input type="text" placeholder="MM / YY" className="px-3 py-2.5 bg-muted border border-border rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/30" />
-                    <input type="text" placeholder="CVV" className="px-3 py-2.5 bg-muted border border-border rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/30" />
-                  </div>
-                  <input type="text" placeholder="Cardholder Name" className="w-full px-3 py-2.5 bg-muted border border-border rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/30" />
+              {payMethod === "card" && (
+                <div className="flex items-center gap-1">
+                  <div className="bg-blue-600 text-white text-[8px] font-black px-1.5 py-0.5 rounded">VISA</div>
+                  <div className="w-6 h-4 rounded-sm overflow-hidden flex"><div className="flex-1 bg-red-500" /><div className="flex-1 bg-yellow-400" /></div>
                 </div>
               )}
             </div>
-          )}
 
-          {currentStep === 3 && (
-            <div className="bg-card border border-border rounded-2xl p-5">
-              <h2 className="text-lg font-bold text-foreground mb-4">Order Review</h2>
-              <div className="space-y-3 mb-4">
-                {items.map((item) => (
+            {payMethod === "card" && (
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground mb-1.5">Card Number</label>
+                  <div className="flex items-center gap-2 border border-border rounded-xl px-3 py-2.5 focus-within:ring-2 focus-within:ring-primary/30 bg-background">
+                    <input value={cardNum} onChange={(e) => setCardNum(e.target.value)} placeholder="1234 1234 1234 1234"
+                      className="flex-1 text-sm text-foreground outline-none bg-transparent" />
+                    <CreditCard className="w-4 h-4 text-muted-foreground flex-shrink-0" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-[10px] font-semibold text-muted-foreground mb-1.5">Expiry Date</label>
+                    <input value={expiry} onChange={(e) => setExpiry(e.target.value)} placeholder="MM / YY"
+                      className="w-full border border-border rounded-xl px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 bg-background text-foreground" />
+                  </div>
+                  <div>
+                    <label className="block text-[10px] font-semibold text-muted-foreground mb-1.5">CVV</label>
+                    <input value={cvv} onChange={(e) => setCvv(e.target.value)} placeholder="123"
+                      className="w-full border border-border rounded-xl px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 bg-background text-foreground" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground mb-1.5">Cardholder Name</label>
+                  <input value={cardName} onChange={(e) => setCardName(e.target.value)} placeholder="John Doe"
+                    className="w-full border border-border rounded-xl px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 bg-background text-foreground" />
+                </div>
+                <div className="flex items-center justify-between py-1">
+                  <span className="text-xs font-semibold text-foreground">Save card for future payments</span>
+                  <button onClick={() => setSaveCard(!saveCard)}
+                    className={`w-11 h-6 rounded-full transition-colors relative ${saveCard ? "bg-primary" : "bg-muted"}`}>
+                    <div className={`w-4 h-4 rounded-full bg-white shadow absolute top-1 transition-transform ${saveCard ? "translate-x-6" : "translate-x-1"}`} />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {payMethod === "mobile" && (
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground mb-1.5">Country</label>
+                  <select className="w-full border border-border rounded-xl px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 bg-background text-foreground">
+                    <option>🇿🇲 Zambia (+260)</option>
+                    <option>🇬🇭 Ghana (+233)</option>
+                    <option>🇰🇪 Kenya (+254)</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground mb-1.5">Provider</label>
+                  <select className="w-full border border-border rounded-xl px-3 py-2.5 text-sm outline-none focus:ring-2 focus:ring-primary/30 bg-background text-foreground">
+                    <option>MTN Mobile Money</option>
+                    <option>Airtel Money</option>
+                    <option>Zamtel Money</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground mb-1.5">Phone Number</label>
+                  <div className="flex items-center gap-2 border border-border rounded-xl px-3 py-2.5">
+                    <input placeholder="+260 97 123 4567" className="flex-1 text-sm text-foreground outline-none bg-transparent" />
+                    <Smartphone className="w-4 h-4 text-muted-foreground" />
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {(payMethod === "apple" || payMethod === "google") && (
+              <div className="space-y-3">
+                <button className="w-full py-3.5 rounded-xl font-bold text-sm flex items-center justify-center gap-2"
+                  style={{ background: payMethod === "apple" ? "#000" : "#fff", color: payMethod === "apple" ? "#fff" : "#000", border: payMethod === "google" ? "1px solid #ddd" : "none" }}>
+                  {payMethod === "apple" ? " Buy with Apple Pay" : "Buy with Google Pay"}
+                </button>
+                <p className="text-[10px] text-center text-muted-foreground">Secure • Fast • Encrypted</p>
+                <p className="text-xs text-center text-muted-foreground">Total Payable <strong>${TOTAL.toFixed(2)}</strong></p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ── STEP 3: REVIEW ── */}
+      {step === 3 && (
+        <div className="space-y-3">
+          <div className="bg-card border border-border rounded-2xl p-4">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="text-sm font-bold text-foreground">Order Review</h2>
+              <button onClick={() => setStep(1)} className="flex items-center gap-1 text-xs text-primary font-semibold">
+                <Edit2 className="w-3 h-3" /> Edit
+              </button>
+            </div>
+            {/* Delivery Address summary */}
+            <div className="mb-4">
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2">Delivery Address</p>
+              <div className="flex items-start gap-2">
+                <MapPin className="w-3.5 h-3.5 text-primary mt-0.5 flex-shrink-0" />
+                <div>
+                  <p className="text-xs font-bold text-foreground">John Doe</p>
+                  <p className="text-[11px] text-muted-foreground">+233 24 123 4567</p>
+                  <p className="text-[11px] text-muted-foreground">123 KRYROS Street, Accra, Greater Accra, Ghana, 00233</p>
+                </div>
+              </div>
+            </div>
+            {/* Items */}
+            <div>
+              <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider mb-2">Items ({ORDER_ITEMS.length})</p>
+              <div className="space-y-2.5">
+                {ORDER_ITEMS.map((item) => (
                   <div key={item.id} className="flex items-center gap-3">
-                    <img src={item.image} alt={item.name} className="w-12 h-12 object-cover rounded-xl bg-muted" />
-                    <div className="flex-1">
-                      <p className="text-sm font-semibold text-foreground">{item.name}</p>
-                      <p className="text-xs text-muted-foreground">Qty: {item.qty}</p>
+                    <div className="w-10 h-10 rounded-xl overflow-hidden bg-muted flex-shrink-0">
+                      <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                     </div>
-                    <span className="font-bold text-foreground">${(item.price * item.qty).toFixed(2)}</span>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-xs font-semibold text-foreground">{item.name}</p>
+                      <p className="text-[10px] text-muted-foreground">Qty: {item.qty}</p>
+                    </div>
+                    <span className="text-xs font-bold text-foreground">${item.price.toLocaleString("en", { minimumFractionDigits: 2 })}</span>
                   </div>
                 ))}
               </div>
-              <div className="border-t border-border pt-4 space-y-2">
-                <div className="flex justify-between text-sm"><span className="text-muted-foreground">Subtotal</span><span className="font-semibold">${subtotal.toFixed(2)}</span></div>
-                <div className="flex justify-between text-sm"><span className="text-muted-foreground">Shipping</span><span className="font-semibold">{shippingCost === 0 ? "Free" : `$${shippingCost.toFixed(2)}`}</span></div>
-                <div className="flex justify-between text-base font-bold border-t border-border pt-2"><span>Total</span><span className="text-primary">${total.toFixed(2)}</span></div>
-              </div>
             </div>
-          )}
-
-          <div className="flex gap-3 mt-5">
-            {currentStep > 0 && (
-              <button onClick={handlePrev} className="flex-1 py-3 border border-border text-foreground rounded-xl font-semibold hover:bg-muted transition-all">
-                Back
-              </button>
-            )}
-            <button
-              onClick={currentStep === steps.length - 1 ? () => {} : handleNext}
-              className="flex-1 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 transition-all flex items-center justify-center gap-2"
-            >
-              {currentStep === steps.length - 1 ? "Place Order" : <>Next <ChevronRight className="w-4 h-4" /></>}
-            </button>
-          </div>
-        </div>
-
-        {/* Order summary sidebar */}
-        <div className="lg:col-span-1">
-          <div className="bg-card border border-border rounded-2xl p-5 sticky top-24">
-            <h3 className="font-bold text-foreground mb-4">Order Summary</h3>
-            <div className="space-y-2 mb-4">
-              {items.slice(0, 3).map((item) => (
-                <div key={item.id} className="flex items-center gap-2">
-                  <img src={item.image} alt={item.name} className="w-8 h-8 object-cover rounded-lg bg-muted" />
-                  <span className="flex-1 text-xs text-muted-foreground truncate">{item.name}</span>
-                  <span className="text-xs font-semibold text-foreground">${(item.price * item.qty).toFixed(2)}</span>
+            {/* Totals */}
+            <div className="mt-4 pt-3 border-t border-border space-y-1.5">
+              {[["Subtotal", `$${SUBTOTAL.toFixed(2)}`], ["Shipping", "Free"], ["Discount", `-$${DISCOUNT.toFixed(2)}`], ["Tax", `$${TAX.toFixed(2)}`]].map(([l, v]) => (
+                <div key={l} className="flex justify-between">
+                  <span className="text-xs text-muted-foreground">{l}</span>
+                  <span className={`text-xs font-semibold ${l === "Discount" ? "text-red-500" : "text-foreground"}`}>{v}</span>
                 </div>
               ))}
-              {items.length > 3 && <p className="text-xs text-muted-foreground">+{items.length - 3} more items</p>}
-            </div>
-            <div className="border-t border-border pt-3 space-y-2">
-              <div className="flex justify-between text-sm"><span className="text-muted-foreground">Subtotal</span><span className="font-semibold">${subtotal.toFixed(2)}</span></div>
-              <div className="flex justify-between text-sm"><span className="text-muted-foreground">Shipping</span><span className="font-semibold">{shippingCost === 0 ? "Free" : `$${shippingCost.toFixed(2)}`}</span></div>
-              <div className="flex justify-between font-bold border-t border-border pt-2"><span>Total</span><span className="text-primary">${total.toFixed(2)}</span></div>
+              <div className="flex justify-between pt-2 border-t border-border">
+                <span className="text-sm font-black text-foreground">Total</span>
+                <span className="text-lg font-black text-primary">${TOTAL.toFixed(2)}</span>
+              </div>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Bottom action */}
+      <div className="fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-xl border-t border-border px-4 py-3 z-30">
+        <div className="max-w-lg mx-auto space-y-2">
+          {step === 1 && (
+            <button onClick={() => setStep(2)}
+              className="w-full py-4 bg-primary text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
+              <Lock className="w-4 h-4" /> Continue to Payment
+            </button>
+          )}
+          {step === 2 && (
+            <button onClick={() => setStep(3)}
+              className="w-full py-4 bg-primary text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
+              <Lock className="w-4 h-4" /> {payMethod === "card" ? `Pay $${TOTAL.toFixed(2)}` : "Continue to Review"} →
+            </button>
+          )}
+          {step === 3 && (
+            <button onClick={handlePlaceOrder}
+              className="w-full py-4 bg-primary text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
+              <Lock className="w-4 h-4" /> Place Order — ${TOTAL.toFixed(2)}
+            </button>
+          )}
+          <p className="text-[10px] text-center text-muted-foreground">
+            By continuing, you agree to our{" "}
+            <Link href="/terms"><span className="text-primary underline cursor-pointer">Terms of Service</span></Link>
+          </p>
         </div>
       </div>
     </div>

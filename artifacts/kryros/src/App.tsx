@@ -29,6 +29,7 @@ import FaqPage from "@/pages/FaqPage";
 import ReturnsPage from "@/pages/ReturnsPage";
 import ShippingPage from "@/pages/ShippingPage";
 import SecurityPage from "@/pages/SecurityPage";
+import PayPage from "@/pages/PayPage";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -74,6 +75,7 @@ function Router() {
       <Route path="/returns">{() => <Layout path="/returns"><ReturnsPage /></Layout>}</Route>
       <Route path="/shipping">{() => <Layout path="/shipping"><ShippingPage /></Layout>}</Route>
       <Route path="/security">{() => <Layout path="/security"><SecurityPage /></Layout>}</Route>
+      <Route path="/pay">{() => <Layout path="/pay"><PayPage /></Layout>}</Route>
       <Route>{() => <Layout path="/404"><NotFound /></Layout>}</Route>
     </Switch>
   );
