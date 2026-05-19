@@ -246,8 +246,14 @@ export default function ShopPage() {
 
   return (
     <div className="pb-24 md:pb-10">
+      {/* Centered heading */}
+      <div className="text-center pt-4 pb-3 px-4">
+        <h2 className="text-base font-black text-foreground tracking-tight">Shop All Products</h2>
+        <p className="text-[11px] text-muted-foreground mt-0.5">Browse our full collection by category</p>
+      </div>
+
       {/* Category cards */}
-      <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 pt-4 pb-4">
+      <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 pb-4">
         {CATEGORIES.map(({ id, label, count, img }) => {
           const active = selectedCat === id;
           return (
@@ -258,27 +264,16 @@ export default function ShopPage() {
                 active ? "ring-2 ring-teal-500 ring-offset-2" : ""
               }`}
             >
-              <img
-                src={img}
-                alt={label}
-                className="w-full h-full object-cover"
-              />
+              <img src={img} alt={label} className="w-full h-full object-cover" />
               <div
                 className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(to top, rgba(10,20,30,0.92) 0%, rgba(10,20,30,0.55) 55%, rgba(10,20,30,0.15) 100%)",
-                }}
+                style={{ background: "linear-gradient(to top, rgba(10,20,30,0.92) 0%, rgba(10,20,30,0.55) 55%, rgba(10,20,30,0.15) 100%)" }}
               />
               <div className="absolute bottom-0 left-0 right-0 p-2.5">
-                <p className="text-white font-black text-xs uppercase tracking-wide leading-tight mb-1">
-                  {label}
-                </p>
+                <p className="text-white font-black text-xs uppercase tracking-wide leading-tight mb-1">{label}</p>
                 <div className="flex items-center gap-1.5">
                   <div className="w-5 h-0.5 bg-teal-400 rounded-full" />
-                  <span className="text-white/70 text-[10px] font-medium">
-                    {count} ITEMS
-                  </span>
+                  <span className="text-white/70 text-[10px] font-medium">{count} ITEMS</span>
                 </div>
               </div>
             </button>
@@ -288,51 +283,6 @@ export default function ShopPage() {
 
       {/* Divider */}
       <div className="mx-4 mb-4 border-t border-border" />
-
-      {/* Shop by Brand */}
-      <div className="px-4 mb-5">
-        <p className="text-sm font-bold text-foreground mb-2.5">Shop by Brand</p>
-        <div className="flex gap-2 overflow-x-auto no-scrollbar">
-          {SHOP_BRANDS.map(({ id, label }) => {
-            const active = selectedBrand === id;
-            return (
-              <button
-                key={id}
-                onClick={() => { setSelectedBrand(id); setHeroDot(0); }}
-                className={`flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-xs font-semibold transition-all ${
-                  active
-                    ? "bg-foreground text-background border-foreground"
-                    : "bg-card border-border text-foreground hover:border-teal-600/50"
-                }`}
-              >
-                {id === "Apple" && <span className="text-sm leading-none"></span>}
-                {id === "Samsung" && (
-                  <span className="text-[9px] font-black tracking-widest">SAMSUNG</span>
-                )}
-                {id === "Google" && (
-                  <span className="font-black text-xs">
-                    <span className="text-blue-500">G</span>
-                    <span className="text-red-500">o</span>
-                    <span className="text-yellow-500">o</span>
-                    <span className="text-blue-500">g</span>
-                    <span className="text-green-500">l</span>
-                    <span className="text-red-500">e</span>
-                  </span>
-                )}
-                {id === "Xiaomi" && (
-                  <span className="text-[9px] font-black text-orange-500 border border-orange-500 rounded px-0.5">mi</span>
-                )}
-                {id === "Sony" && <span className="text-[10px] font-black tracking-widest">SONY</span>}
-                {(id === "Apple" || id === "Samsung" || id === "Sony") && label}
-                {(id === "Google" || id === "Xiaomi") && <span className="ml-0.5">{label}</span>}
-              </button>
-            );
-          })}
-          <button className="flex-shrink-0 flex items-center gap-1 px-3.5 py-2 rounded-full border border-border bg-card text-xs font-semibold text-foreground">
-            More <ChevronRight className="w-3 h-3" />
-          </button>
-        </div>
-      </div>
 
       {/* Hero Banner */}
       <div className="mx-4 mb-5 rounded-2xl overflow-hidden" style={{ background: hero.bg }}>
@@ -398,6 +348,52 @@ export default function ShopPage() {
           ))}
         </div>
       </div>
+
+      {/* Divider */}
+      <div className="mx-4 mb-4 border-t border-border" />
+
+      {/* Shop by Brand */}
+      <div className="px-4 mb-5">
+        <p className="text-sm font-bold text-foreground mb-2.5">Shop by Brand</p>
+        <div className="flex gap-2 overflow-x-auto no-scrollbar">
+          {SHOP_BRANDS.map(({ id, label }) => {
+            const active = selectedBrand === id;
+            return (
+              <button
+                key={id}
+                onClick={() => { setSelectedBrand(id); setHeroDot(0); }}
+                className={`flex-shrink-0 flex items-center gap-1.5 px-3.5 py-2 rounded-full border text-xs font-semibold transition-all ${
+                  active
+                    ? "bg-foreground text-background border-foreground"
+                    : "bg-card border-border text-foreground hover:border-teal-600/50"
+                }`}
+              >
+                {id === "Apple" && <span className="text-sm leading-none"></span>}
+                {id === "Samsung" && <span className="text-[9px] font-black tracking-widest">SAMSUNG</span>}
+                {id === "Google" && (
+                  <span className="font-black text-xs">
+                    <span className="text-blue-500">G</span><span className="text-red-500">o</span>
+                    <span className="text-yellow-500">o</span><span className="text-blue-500">g</span>
+                    <span className="text-green-500">l</span><span className="text-red-500">e</span>
+                  </span>
+                )}
+                {id === "Xiaomi" && (
+                  <span className="text-[9px] font-black text-orange-500 border border-orange-500 rounded px-0.5">mi</span>
+                )}
+                {id === "Sony" && <span className="text-[10px] font-black tracking-widest">SONY</span>}
+                {(id === "Apple" || id === "Samsung" || id === "Sony") && label}
+                {(id === "Google" || id === "Xiaomi") && <span className="ml-0.5">{label}</span>}
+              </button>
+            );
+          })}
+          <button className="flex-shrink-0 flex items-center gap-1 px-3.5 py-2 rounded-full border border-border bg-card text-xs font-semibold text-foreground">
+            More <ChevronRight className="w-3 h-3" />
+          </button>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div className="mx-4 mb-4 border-t border-border" />
 
       {/* Apple Section */}
       <BrandSection title="Apple" brandFilter="Apple" />
