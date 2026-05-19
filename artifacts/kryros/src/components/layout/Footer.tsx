@@ -1,10 +1,35 @@
 import { Link } from "wouter";
 import { Mail, Phone, MapPin, Facebook, Instagram, Twitter, Youtube } from "lucide-react";
 
-const shopLinks = ["Smartphones", "Laptops", "Fashion", "Shoes", "Audio", "Accessories", "Cameras", "All Categories"];
-const serviceLinks = ["Help Center", "Track Order", "Returns & Exchanges", "Shipping & Delivery", "Payment Methods"];
-const companyLinks = ["About Us", "Careers", "Blog", "Press"];
-const legalLinks = ["Privacy Policy", "Terms & Conditions", "Refund Policy", "Cookies Policy"];
+const shopLinks = [
+  { label: "Smartphones", href: "/shop" },
+  { label: "Laptops", href: "/shop" },
+  { label: "Fashion", href: "/shop" },
+  { label: "Shoes", href: "/shop" },
+  { label: "Audio", href: "/shop" },
+  { label: "Accessories", href: "/shop" },
+  { label: "All Categories", href: "/shop" },
+];
+
+const serviceLinks = [
+  { label: "Help Center", href: "/help" },
+  { label: "Track Order", href: "/track" },
+  { label: "Returns & Exchanges", href: "/returns" },
+  { label: "Shipping Information", href: "/shipping" },
+  { label: "FAQ", href: "/faq" },
+  { label: "Security", href: "/security" },
+];
+
+const companyLinks = [
+  { label: "About Us", href: "/about" },
+  { label: "Contact Us", href: "/contact" },
+];
+
+const legalLinks = [
+  { label: "Privacy Policy", href: "/privacy" },
+  { label: "Terms & Conditions", href: "/terms" },
+  { label: "Refund Policy", href: "/refund" },
+];
 
 export default function Footer() {
   return (
@@ -16,19 +41,13 @@ export default function Footer() {
             <h3 className="text-xl font-bold text-background">Subscribe to Our Newsletter</h3>
             <p className="text-background/60 text-sm mt-1">Get the latest updates on new arrivals, exclusive offers and more.</p>
           </div>
-          <form
-            onSubmit={(e) => e.preventDefault()}
-            className="flex gap-2 w-full md:w-auto"
-          >
+          <form onSubmit={(e) => e.preventDefault()} className="flex gap-2 w-full md:w-auto">
             <input
               type="email"
               placeholder="Enter your email address"
               className="flex-1 md:w-72 px-4 py-2.5 bg-background/10 border border-background/20 rounded-xl text-background placeholder:text-background/40 outline-none focus:border-primary text-sm"
             />
-            <button
-              type="submit"
-              className="px-6 py-2.5 bg-primary text-white rounded-xl font-semibold text-sm hover:bg-primary/90 transition-colors flex-shrink-0"
-            >
+            <button type="submit" className="px-6 py-2.5 bg-primary text-white rounded-xl font-semibold text-sm hover:bg-primary/90 transition-colors flex-shrink-0">
               Subscribe
             </button>
           </form>
@@ -40,9 +59,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
           {/* Brand */}
           <div className="col-span-2">
-            <span className="text-2xl font-black tracking-tight">
-              KRY<span className="text-primary">ROS</span>
-            </span>
+            <span className="text-2xl font-black tracking-tight">KRY<span className="text-primary">ROS</span></span>
             <p className="text-background/60 text-sm mt-3 leading-relaxed max-w-xs">
               Your trusted global e-commerce platform for tech, fashion and lifestyle products. Shopping made simple, fast and secure.
             </p>
@@ -59,10 +76,10 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-background text-sm mb-4">Shop</h4>
             <ul className="space-y-2">
-              {shopLinks.map((l) => (
-                <li key={l}>
-                  <Link href="/shop">
-                    <span className="text-background/60 text-sm hover:text-primary transition-colors cursor-pointer">{l}</span>
+              {shopLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link href={href}>
+                    <span className="text-background/60 text-sm hover:text-primary transition-colors cursor-pointer">{label}</span>
                   </Link>
                 </li>
               ))}
@@ -73,29 +90,35 @@ export default function Footer() {
           <div>
             <h4 className="font-bold text-background text-sm mb-4">Customer Service</h4>
             <ul className="space-y-2">
-              {serviceLinks.map((l) => (
-                <li key={l}>
-                  <span className="text-background/60 text-sm hover:text-primary transition-colors cursor-pointer">{l}</span>
+              {serviceLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link href={href}>
+                    <span className="text-background/60 text-sm hover:text-primary transition-colors cursor-pointer">{label}</span>
+                  </Link>
                 </li>
               ))}
             </ul>
           </div>
 
-          {/* Company */}
+          {/* Company + Legal */}
           <div>
             <h4 className="font-bold text-background text-sm mb-4">Company</h4>
             <ul className="space-y-2">
-              {companyLinks.map((l) => (
-                <li key={l}>
-                  <span className="text-background/60 text-sm hover:text-primary transition-colors cursor-pointer">{l}</span>
+              {companyLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link href={href}>
+                    <span className="text-background/60 text-sm hover:text-primary transition-colors cursor-pointer">{label}</span>
+                  </Link>
                 </li>
               ))}
             </ul>
             <h4 className="font-bold text-background text-sm mb-3 mt-5">Legal</h4>
             <ul className="space-y-2">
-              {legalLinks.map((l) => (
-                <li key={l}>
-                  <span className="text-background/60 text-sm hover:text-primary transition-colors cursor-pointer">{l}</span>
+              {legalLinks.map(({ label, href }) => (
+                <li key={label}>
+                  <Link href={href}>
+                    <span className="text-background/60 text-sm hover:text-primary transition-colors cursor-pointer">{label}</span>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -111,14 +134,13 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-background/60 text-xs">kryrosmobile@gmail.com</span>
+                <span className="text-background/60 text-xs">support@kryros.com</span>
               </div>
               <div className="flex items-center gap-2">
                 <Phone className="w-4 h-4 text-primary flex-shrink-0" />
-                <span className="text-background/60 text-xs">+260 966 423 719</span>
+                <span className="text-background/60 text-xs">+1(800) 123-4567</span>
               </div>
             </div>
-
             <div className="mt-5">
               <p className="text-xs text-background/40 mb-2">We accept</p>
               <div className="flex flex-wrap gap-1">
@@ -134,12 +156,8 @@ export default function Footer() {
       {/* Bottom bar */}
       <div className="border-t border-background/10">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-2">
-          <p className="text-background/40 text-xs">
-            &copy; 2024 KRYROS MOBILE TECH LIMITED. All Rights Reserved.
-          </p>
-          <p className="text-background/40 text-xs text-center">
-            Trusted Online Store | Secure Payments | Customer Support Available 24/7
-          </p>
+          <p className="text-background/40 text-xs">&copy; 2024 KRYROS MOBILE TECH LIMITED. All Rights Reserved.</p>
+          <p className="text-background/40 text-xs text-center">Trusted Online Store | Secure Payments | Customer Support Available 24/7</p>
         </div>
       </div>
     </footer>

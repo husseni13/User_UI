@@ -2,6 +2,7 @@ import HeroSection from "@/components/home/HeroSection";
 import TrustBadges from "@/components/home/TrustBadges";
 import CategorySection from "@/components/home/CategorySection";
 import FlashSaleSection from "@/components/home/FlashSaleSection";
+import UpgradeBanner from "@/components/home/UpgradeBanner";
 import PromoBanners from "@/components/home/PromoBanners";
 import ProductSection from "@/components/home/ProductSection";
 import BrandsSection from "@/components/home/BrandsSection";
@@ -22,13 +23,16 @@ export default function HomePage() {
       {/* 4. Flash Sale banner + Flash Deals horizontal scroll */}
       <FlashSaleSection />
 
-      {/* 5. Promo banners: Get Now + Free Shipping */}
+      {/* 5. Upgrade Your Tech Game banner */}
+      <UpgradeBanner />
+
+      {/* 6. Promo banners: Get Now + Free Shipping */}
       <PromoBanners />
 
-      {/* 6. Top Brands You Love */}
+      {/* 7. Top Brands You Love */}
       <BrandsSection />
 
-      {/* 7. Recommended For You — horizontal scroll */}
+      {/* 8. Recommended For You — horizontal scroll */}
       <ProductSection
         title="Recommended For You"
         viewAllHref="/shop"
