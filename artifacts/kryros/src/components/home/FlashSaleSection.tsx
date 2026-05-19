@@ -27,10 +27,10 @@ function FlashCard({ product }: { product: Product }) {
 
   return (
     <div
-      className="flex-shrink-0 w-[155px] md:w-[175px] bg-card border border-border rounded-2xl overflow-hidden cursor-pointer group hover:shadow-md hover:border-primary/30 transition-all duration-200"
+      className="flex-shrink-0 w-[140px] md:w-[160px] bg-card border border-border rounded-2xl overflow-hidden cursor-pointer group hover:shadow-md hover:border-primary/30 transition-all duration-200"
       onClick={() => (window.location.href = `/product/${product.id}`)}
     >
-      <div className="relative bg-muted aspect-square">
+      <div className="relative bg-muted h-[100px]">
         {product.discount > 0 && (
           <span className="absolute top-2 left-2 bg-red-500 text-white text-[9px] font-bold px-1.5 py-0.5 rounded-md z-10">
             -{product.discount}%
