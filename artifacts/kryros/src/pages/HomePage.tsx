@@ -14,23 +14,23 @@ export default function HomePage() {
       {/* 1. Hero slider */}
       <HeroSection />
 
-      {/* 2. Trust badges */}
+      {/* 2. Top Brands — right after hero */}
+      <BrandsSection />
+
+      {/* 3. Trust badges */}
       <TrustBadges />
 
-      {/* 3. Category icons horizontal scroll */}
+      {/* 4. Category cards horizontal scroll */}
       <CategorySection />
 
-      {/* 4. Flash Sale banner + Flash Deals horizontal scroll */}
+      {/* 5. Flash Sale banner + Flash Deals horizontal scroll */}
       <FlashSaleSection />
 
-      {/* 5. Upgrade Your Tech Game banner */}
+      {/* 6. Upgrade Your Tech Game banner */}
       <UpgradeBanner />
 
-      {/* 6. Promo banners: Get Now + Free Shipping */}
+      {/* 7. Promo banners: Get Now + Free Shipping */}
       <PromoBanners />
-
-      {/* 7. Top Brands You Love */}
-      <BrandsSection />
 
       {/* 8. Recommended For You — horizontal scroll */}
       <ProductSection
