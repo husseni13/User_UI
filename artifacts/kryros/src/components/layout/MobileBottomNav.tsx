@@ -6,14 +6,12 @@ const navItems = [
   { label: "Home", icon: Home, href: "/" },
   { label: "Shop", icon: Grid2x2, href: "/shop" },
   { label: "Get Now", icon: Zap, href: "/get-now" },
-  { label: "Cart", icon: ShoppingBag, href: "/cart" },
+  { label: "Wholesale", icon: ShoppingBag, href: "/wholesale" },
   { label: "Pickup", icon: MapPin, href: "/pickup-stations" },
 ];
 
 export default function MobileBottomNav() {
   const [location] = useLocation();
-  const items = useCartStore((s) => s.items);
-  const cartCount = items.reduce((t, i) => t + i.qty, 0);
 
   return (
     <nav
@@ -24,11 +22,9 @@ export default function MobileBottomNav() {
         <div className="flex items-center justify-around py-2">
           {navItems.map(({ label, icon: Icon, href }) => {
             const isActive = location === href || (href !== "/" && location.startsWith(href));
-            const isCart = href === "/cart";
             return (
               <Link key={href} href={href}>
                 <button
-                  data-testid={`bottom-nav-${label.toLowerCase().replace(" ", "-")}`}
                   className="flex flex-col items-center gap-0.5 px-3 py-1.5 rounded-xl transition-all duration-200 relative"
                 >
                   <div className={`relative p-1.5 rounded-xl transition-all duration-200 ${isActive ? "bg-primary/10" : ""}`}>
@@ -36,11 +32,6 @@ export default function MobileBottomNav() {
                       className={`w-5 h-5 transition-all duration-200 ${isActive ? "text-primary" : "text-muted-foreground"}`}
                       strokeWidth={isActive ? 2.5 : 2}
                     />
-                    {isCart && cartCount > 0 && (
-                      <span className="absolute -top-1 -right-1 bg-primary text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">
-                        {cartCount > 9 ? "9+" : cartCount}
-                      </span>
-                    )}
                   </div>
                   <span
                     className={`text-[10px] font-medium transition-colors duration-200 ${isActive ? "text-primary" : "text-muted-foreground"}`}
