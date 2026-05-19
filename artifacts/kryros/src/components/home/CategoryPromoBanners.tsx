@@ -62,65 +62,49 @@ const ROW2 = [
   },
 ];
 
-function PromoCard({ cat }: { cat: (typeof ROW1)[0] }) {
+const GRADIENT =
+  "linear-gradient(to right, transparent 0%, rgba(0,0,0,0.5) 30%, rgba(0,0,0,1) 65%)";
+
+function PromoCard({ cat, small = false }: { cat: (typeof ROW1)[0]; small?: boolean }) {
   return (
     <Link href={cat.href}>
       <div
-        className="relative flex items-center overflow-hidden cursor-pointer group border border-gray-200 hover:shadow-md transition-shadow duration-200 h-[110px] md:h-[130px]"
-        style={{ background: cat.bg, borderRadius: 8 }}
+        className="relative flex items-center overflow-hidden cursor-pointer group border border-gray-200 hover:shadow-md transition-shadow duration-200"
+        style={{
+          background: cat.bg,
+          borderRadius: 8,
+          height: small ? 88 : 120,
+        }}
       >
-        {/* Text — left side */}
-        <div className="flex flex-col justify-center pl-3 md:pl-4 pr-1 z-10 w-[55%]">
-          <h3 className="font-black text-gray-900 leading-tight mb-0.5 text-[12px] md:text-[13px] truncate">
+        {/* Left: text */}
+        <div className="relative flex flex-col justify-center pl-3 pr-1 z-10" style={{ width: "58%" }}>
+          <h3
+            className="font-black text-gray-900 leading-tight mb-0.5 truncate"
+            style={{ fontSize: small ? 11 : 12 }}
+          >
             {cat.name}
           </h3>
-          <p className="text-gray-500 leading-snug mb-1.5 text-[9px] md:text-[10px] line-clamp-2">
+          <p
+            className="text-gray-500 leading-snug mb-1.5 line-clamp-2"
+            style={{ fontSize: small ? 8 : 9 }}
+          >
             {cat.sub}
           </p>
-          <span className="text-[#0d9488] font-semibold text-[9px] md:text-[10px]">
+          <span className="text-[#0d9488] font-semibold" style={{ fontSize: small ? 8 : 9 }}>
             Explore Now
           </span>
         </div>
 
-        {/* Product image — right side */}
-        <div className="absolute right-0 top-0 bottom-0 w-[45%]">
+        {/* Right: image with left-edge gradient blend */}
+        <div className="absolute right-0 top-0 bottom-0" style={{ width: "45%" }}>
           <img
             src={cat.img}
             alt={cat.name}
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-          />
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-function SmallPromoCard({ cat }: { cat: (typeof ROW2)[0] }) {
-  return (
-    <Link href={cat.href}>
-      <div
-        className="relative flex items-center overflow-hidden cursor-pointer group border border-gray-200 hover:shadow-md transition-shadow duration-200 h-[90px] md:h-[90px]"
-        style={{ background: cat.bg, borderRadius: 8 }}
-      >
-        {/* Text — left side */}
-        <div className="flex flex-col justify-center pl-3 pr-1 z-10 w-[55%]">
-          <h3 className="font-black text-gray-900 leading-tight mb-0.5 text-[11px] md:text-[12px] truncate">
-            {cat.name}
-          </h3>
-          <p className="text-gray-500 leading-snug mb-1.5 text-[8px] md:text-[9px] line-clamp-2">
-            {cat.sub}
-          </p>
-          <span className="text-[#0d9488] font-semibold text-[8px] md:text-[9px]">
-            Explore Now
-          </span>
-        </div>
-
-        {/* Product image — right side */}
-        <div className="absolute right-0 top-0 bottom-0 w-[45%]">
-          <img
-            src={cat.img}
-            alt={cat.name}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            style={{
+              maskImage: GRADIENT,
+              WebkitMaskImage: GRADIENT,
+            }}
           />
         </div>
       </div>
@@ -131,17 +115,25 @@ function SmallPromoCard({ cat }: { cat: (typeof ROW2)[0] }) {
 export default function CategoryPromoBanners() {
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-6 mb-6">
-      {/* Row 1 — 2 cols on mobile, 3 cols on desktop */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 mb-2.5">
+      {/*
+        Row 1 — 3 cards
+        Mobile:  1 column (stacked) so no card is ever orphaned
+        Desktop: 3 columns side by side
+      */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2.5 mb-2.5">
         {ROW1.map((cat) => (
-          <PromoCard key={cat.id} cat={cat} />
+          <PromoCard key={cat.id} cat={cat} small={false} />
         ))}
       </div>
 
-      {/* Row 2 — 2 cols on mobile, 4 cols on desktop */}
+      {/*
+        Row 2 — 4 cards
+        Mobile:  2 columns (4 ÷ 2 = 2 rows, perfectly even)
+        Desktop: 4 columns side by side
+      */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
         {ROW2.map((cat) => (
-          <SmallPromoCard key={cat.id} cat={cat} />
+          <PromoCard key={cat.id} cat={cat} small={true} />
         ))}
       </div>
     </section>
