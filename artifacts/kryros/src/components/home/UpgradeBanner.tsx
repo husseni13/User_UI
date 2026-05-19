@@ -13,12 +13,12 @@ export default function UpgradeBanner() {
           className="absolute inset-0 w-full h-full object-cover"
         />
 
-        {/* Dark overlay so text is readable */}
+        {/* Dark overlay so text is readable — lighter so image shows through */}
         <div
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(100deg, rgba(5,15,30,0.92) 0%, rgba(5,20,40,0.80) 45%, rgba(5,40,40,0.60) 100%)",
+              "linear-gradient(100deg, rgba(5,15,30,0.82) 0%, rgba(5,20,40,0.60) 50%, rgba(5,40,40,0.30) 100%)",
           }}
         />
 

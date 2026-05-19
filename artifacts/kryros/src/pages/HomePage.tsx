@@ -4,6 +4,7 @@ import CategorySection from "@/components/home/CategorySection";
 import FlashSaleSection from "@/components/home/FlashSaleSection";
 import UpgradeBanner from "@/components/home/UpgradeBanner";
 import PromoBanners from "@/components/home/PromoBanners";
+import CategoryPromoBanners from "@/components/home/CategoryPromoBanners";
 import ProductSection from "@/components/home/ProductSection";
 import BrandsSection from "@/components/home/BrandsSection";
 import type { Product } from "@/data/mockData";
@@ -31,6 +32,9 @@ export default function HomePage() {
 
       {/* 7. Promo banners: Get Now + Free Shipping */}
       <PromoBanners />
+
+      {/* 8. Category promotional banners */}
+      <CategoryPromoBanners />
 
       {/* 8. Recommended For You — horizontal scroll */}
       <ProductSection
