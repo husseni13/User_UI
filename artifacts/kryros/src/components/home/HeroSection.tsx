@@ -1,112 +1,185 @@
 import { useState, useEffect } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "wouter";
-import { heroSlides } from "@/data/mockData";
+import { ChevronRight } from "lucide-react";
+
+const slides = [
+  {
+    id: "h1",
+    badge: "NEW ARRIVAL",
+    title: "MacBook Pro M3",
+    highlight: "Power. Perfected.",
+    subtitle: "The ultimate notebook for pro performance anywhere.",
+    buttonText: "Shop Now",
+    buttonHref: "/shop",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900&q=90",
+    bg: "#f0f4f7",
+  },
+  {
+    id: "h2",
+    badge: "HOT DEAL",
+    title: "iPhone 15 Pro Max",
+    highlight: "Titanium. Redefined.",
+    subtitle: "The most powerful iPhone ever made. Now with Action Button.",
+    buttonText: "Shop Now",
+    buttonHref: "/shop",
+    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=900&q=90",
+    bg: "#f4f0f7",
+  },
+  {
+    id: "h3",
+    badge: "BEST SELLER",
+    title: "Sony WH-1000XM5",
+    highlight: "Silence Everything.",
+    subtitle: "Industry-leading noise cancellation with up to 30 hours battery.",
+    buttonText: "Shop Now",
+    buttonHref: "/shop",
+    image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=900&q=90",
+    bg: "#f7f4f0",
+  },
+  {
+    id: "h4",
+    badge: "LIMITED TIME",
+    title: "Nike Air Max 270",
+    highlight: "Move Without Limits.",
+    subtitle: "Maximum cushioning meets iconic style. Built for everyday performance.",
+    buttonText: "Shop Now",
+    buttonHref: "/shop",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=90",
+    bg: "#f0f7f4",
+  },
+];
 
 export default function HeroSection() {
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
-    const t = setInterval(() => setCurrent((c) => (c + 1) % heroSlides.length), 5000);
+    const t = setInterval(() => setCurrent((c) => (c + 1) % slides.length), 5000);
     return () => clearInterval(t);
   }, []);
 
-  const slide = heroSlides[current];
+  const slide = slides[current];
 
   return (
-    <section className="relative overflow-hidden" style={{ background: "linear-gradient(135deg, #0a1628 0%, #0d1f3c 50%, #0f2440 100%)" }}>
+    <section className="relative overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={slide.id}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
-          className="flex items-center justify-between min-h-[220px] md:min-h-[380px] px-4 md:px-12 py-6 md:py-10 relative"
+          transition={{ duration: 0.45 }}
+          className="relative flex items-center"
+          style={{
+            background: slide.bg,
+            minHeight: "clamp(180px, 38vw, 420px)",
+          }}
         >
-          {/* Background glow effects */}
-          <div className="absolute inset-0 pointer-events-none">
-            <div className="absolute top-0 right-1/3 w-80 h-80 rounded-full opacity-10" style={{ background: "radial-gradient(circle, #1FA89A 0%, transparent 70%)" }} />
-          </div>
+          {/* Subtle right-side glow behind image */}
+          <div
+            className="absolute right-0 top-0 h-full w-1/2 pointer-events-none"
+            style={{
+              background: `radial-gradient(ellipse at 80% 50%, ${slide.bg}00 0%, ${slide.bg} 75%)`,
+            }}
+          />
 
-          {/* Left: Text content */}
-          <div className="flex-1 relative z-10 max-w-[55%] md:max-w-lg">
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="inline-flex items-center bg-primary/20 border border-primary/30 text-primary text-[9px] md:text-xs font-bold uppercase tracking-widest px-2.5 py-1 rounded-full mb-3"
-            >
-              {slide.badge}
-            </motion.div>
+          <div className="w-full max-w-7xl mx-auto px-4 md:px-12 flex items-center justify-between gap-6 py-8 md:py-12">
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-            >
-              <h1 className="text-[22px] md:text-5xl font-black text-white leading-tight">
-                {slide.line1}
-              </h1>
-              <h1 className="text-[22px] md:text-5xl font-black text-white leading-tight">
-                {slide.line2}
-              </h1>
-              <h1 className="text-[22px] md:text-5xl font-black leading-tight" style={{ color: "#1FA89A" }}>
-                {slide.highlight}
-              </h1>
-            </motion.div>
+            {/* Left — text content */}
+            <div className="flex-1 min-w-0 max-w-[52%] md:max-w-md z-10">
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.25 }}
-              className="text-white/60 text-[10px] md:text-sm mt-2 mb-4 leading-snug max-w-[90%]"
-            >
-              {slide.subtitle}
-            </motion.p>
+              {/* Badge */}
+              <motion.p
+                initial={{ opacity: 0, y: -6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.05 }}
+                className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-2 md:mb-3"
+                style={{ color: "#1FA89A" }}
+              >
+                {slide.badge}
+              </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              <Link href="/shop">
-                <button className="px-4 md:px-6 py-2 md:py-2.5 text-white rounded-xl font-bold text-xs md:text-sm hover:opacity-90 transition-all active:scale-95" style={{ background: "#1FA89A" }}>
-                  Shop Now
-                </button>
-              </Link>
-            </motion.div>
-          </div>
+              {/* Title + Highlight */}
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+              >
+                <h1 className="text-[20px] md:text-[44px] font-black text-gray-900 dark:text-foreground leading-tight">
+                  {slide.title}
+                </h1>
+                <h2
+                  className="text-[20px] md:text-[44px] font-black leading-tight mb-2 md:mb-3"
+                  style={{ color: "#1FA89A" }}
+                >
+                  {slide.highlight}
+                </h2>
+              </motion.div>
 
-          {/* Right: Product image + badge */}
-          <div className="relative flex-shrink-0 flex items-center justify-center">
-            {/* UP TO X% OFF badge */}
-            <div className="absolute -top-2 right-0 md:-top-4 md:-right-4 z-20 w-14 h-14 md:w-20 md:h-20 rounded-full flex flex-col items-center justify-center text-white shadow-lg" style={{ background: "#0d1f3c", border: "2px solid rgba(255,255,255,0.15)" }}>
-              <span className="text-[7px] md:text-[10px] font-semibold text-white/70 leading-none">UP TO</span>
-              <span className="text-sm md:text-xl font-black leading-none">{slide.discount}</span>
-              <span className="text-[7px] md:text-[10px] font-semibold text-white/70 leading-none">OFF</span>
+              {/* Subtitle */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.18 }}
+                className="text-[11px] md:text-sm text-gray-500 dark:text-muted-foreground leading-snug mb-4 md:mb-6 max-w-[95%]"
+              >
+                {slide.subtitle}
+              </motion.p>
+
+              {/* Button */}
+              <motion.div
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.22 }}
+              >
+                <Link href={slide.buttonHref}>
+                  <button
+                    className="inline-flex items-center gap-1.5 px-5 md:px-7 py-2 md:py-3 rounded-xl font-bold text-xs md:text-sm text-white hover:opacity-90 active:scale-95 transition-all"
+                    style={{ background: "#1FA89A" }}
+                  >
+                    {slide.buttonText}
+                    <ChevronRight className="w-3.5 h-3.5" />
+                  </button>
+                </Link>
+              </motion.div>
             </div>
-            <motion.img
-              key={slide.id}
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              src={slide.image}
-              alt="Featured product"
-              className="w-[130px] h-[130px] md:w-[320px] md:h-[320px] object-cover rounded-2xl md:rounded-3xl shadow-2xl"
-              style={{ filter: "drop-shadow(0 20px 40px rgba(0,0,0,0.5))" }}
-            />
+
+            {/* Right — product image */}
+            <div className="flex-shrink-0 flex items-center justify-center relative">
+              <motion.img
+                key={slide.id}
+                initial={{ opacity: 0, x: 24, scale: 0.97 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.5, delay: 0.08 }}
+                src={slide.image}
+                alt={slide.title}
+                className="object-contain"
+                style={{
+                  width: "clamp(150px, 36vw, 420px)",
+                  height: "clamp(150px, 36vw, 420px)",
+                  filter: "drop-shadow(0 24px 48px rgba(0,0,0,0.18))",
+                }}
+              />
+            </div>
+
           </div>
         </motion.div>
       </AnimatePresence>
 
-      {/* Dots */}
-      <div className="flex justify-center gap-2 pb-4">
-        {heroSlides.map((_, i) => (
+      {/* Slide dots */}
+      <div
+        className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5"
+      >
+        {slides.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
-            className={`rounded-full transition-all duration-300 ${i === current ? "w-6 h-2 bg-primary" : "w-2 h-2 bg-white/25"}`}
+            className={`rounded-full transition-all duration-300 ${
+              i === current
+                ? "w-5 h-2 bg-primary"
+                : "w-2 h-2 bg-gray-400/40 hover:bg-gray-400/70"
+            }`}
           />
         ))}
       </div>
