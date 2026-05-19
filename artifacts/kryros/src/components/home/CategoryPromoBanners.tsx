@@ -62,50 +62,61 @@ const ROW2 = [
   },
 ];
 
-function PromoCard({
-  cat,
-  rowHeight,
-}: {
-  cat: (typeof ROW1)[0];
-  rowHeight: number;
-}) {
+function PromoCard({ cat }: { cat: (typeof ROW1)[0] }) {
   return (
     <Link href={cat.href}>
       <div
-        className="relative flex items-center overflow-hidden cursor-pointer group border border-gray-200 hover:shadow-md transition-shadow duration-200"
-        style={{
-          background: cat.bg,
-          height: rowHeight,
-          borderRadius: 8,
-        }}
+        className="relative flex items-center overflow-hidden cursor-pointer group border border-gray-200 hover:shadow-md transition-shadow duration-200 h-[110px] md:h-[130px]"
+        style={{ background: cat.bg, borderRadius: 8 }}
       >
         {/* Text — left side */}
-        <div className="flex flex-col justify-center pl-4 pr-2 z-10" style={{ width: "55%" }}>
-          <h3
-            className="font-black text-gray-900 leading-tight mb-0.5"
-            style={{ fontSize: rowHeight < 110 ? 11 : 13 }}
-          >
+        <div className="flex flex-col justify-center pl-3 md:pl-4 pr-1 z-10 w-[55%]">
+          <h3 className="font-black text-gray-900 leading-tight mb-0.5 text-[12px] md:text-[13px] truncate">
             {cat.name}
           </h3>
-          <p
-            className="text-gray-500 leading-snug mb-2 line-clamp-2"
-            style={{ fontSize: rowHeight < 110 ? 9 : 10 }}
-          >
+          <p className="text-gray-500 leading-snug mb-1.5 text-[9px] md:text-[10px] line-clamp-2">
             {cat.sub}
           </p>
-          <span
-            className="text-[#0d9488] font-semibold hover:underline"
-            style={{ fontSize: rowHeight < 110 ? 9 : 10 }}
-          >
+          <span className="text-[#0d9488] font-semibold text-[9px] md:text-[10px]">
             Explore Now
           </span>
         </div>
 
-        {/* Product image — right side, clean rectangle */}
-        <div
-          className="absolute right-0 top-0 bottom-0"
-          style={{ width: "45%" }}
-        >
+        {/* Product image — right side */}
+        <div className="absolute right-0 top-0 bottom-0 w-[45%]">
+          <img
+            src={cat.img}
+            alt={cat.name}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+function SmallPromoCard({ cat }: { cat: (typeof ROW2)[0] }) {
+  return (
+    <Link href={cat.href}>
+      <div
+        className="relative flex items-center overflow-hidden cursor-pointer group border border-gray-200 hover:shadow-md transition-shadow duration-200 h-[90px] md:h-[90px]"
+        style={{ background: cat.bg, borderRadius: 8 }}
+      >
+        {/* Text — left side */}
+        <div className="flex flex-col justify-center pl-3 pr-1 z-10 w-[55%]">
+          <h3 className="font-black text-gray-900 leading-tight mb-0.5 text-[11px] md:text-[12px] truncate">
+            {cat.name}
+          </h3>
+          <p className="text-gray-500 leading-snug mb-1.5 text-[8px] md:text-[9px] line-clamp-2">
+            {cat.sub}
+          </p>
+          <span className="text-[#0d9488] font-semibold text-[8px] md:text-[9px]">
+            Explore Now
+          </span>
+        </div>
+
+        {/* Product image — right side */}
+        <div className="absolute right-0 top-0 bottom-0 w-[45%]">
           <img
             src={cat.img}
             alt={cat.name}
@@ -120,17 +131,17 @@ function PromoCard({
 export default function CategoryPromoBanners() {
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-6 mb-6">
-      {/* Row 1 — 3 larger cards */}
-      <div className="grid grid-cols-3 gap-3 mb-3">
+      {/* Row 1 — 2 cols on mobile, 3 cols on desktop */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2.5 mb-2.5">
         {ROW1.map((cat) => (
-          <PromoCard key={cat.id} cat={cat} rowHeight={130} />
+          <PromoCard key={cat.id} cat={cat} />
         ))}
       </div>
 
-      {/* Row 2 — 4 smaller cards */}
-      <div className="grid grid-cols-4 gap-3">
+      {/* Row 2 — 2 cols on mobile, 4 cols on desktop */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5">
         {ROW2.map((cat) => (
-          <PromoCard key={cat.id} cat={cat} rowHeight={90} />
+          <SmallPromoCard key={cat.id} cat={cat} />
         ))}
       </div>
     </section>
