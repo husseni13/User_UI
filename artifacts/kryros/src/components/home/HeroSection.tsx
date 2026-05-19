@@ -12,8 +12,8 @@ const slides = [
     subtitle: "The ultimate notebook for pro performance anywhere.",
     buttonText: "Shop Now",
     buttonHref: "/shop",
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=900&q=90",
-    bg: "#f0f4f7",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=1200&q=90",
+    bg: "#eef2f5",
   },
   {
     id: "h2",
@@ -23,19 +23,19 @@ const slides = [
     subtitle: "The most powerful iPhone ever made. Now with Action Button.",
     buttonText: "Shop Now",
     buttonHref: "/shop",
-    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=900&q=90",
-    bg: "#f4f0f7",
+    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=1200&q=90",
+    bg: "#f0eef5",
   },
   {
     id: "h3",
     badge: "BEST SELLER",
     title: "Sony WH-1000XM5",
     highlight: "Silence Everything.",
-    subtitle: "Industry-leading noise cancellation with up to 30 hours battery.",
+    subtitle: "Industry-leading noise cancellation. Up to 30 hours battery.",
     buttonText: "Shop Now",
     buttonHref: "/shop",
-    image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=900&q=90",
-    bg: "#f7f4f0",
+    image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=1200&q=90",
+    bg: "#f5f0ee",
   },
   {
     id: "h4",
@@ -45,8 +45,8 @@ const slides = [
     subtitle: "Maximum cushioning meets iconic style. Built for everyday performance.",
     buttonText: "Shop Now",
     buttonHref: "/shop",
-    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=900&q=90",
-    bg: "#f0f7f4",
+    image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1200&q=90",
+    bg: "#eef5f0",
   },
 ];
 
@@ -61,33 +61,21 @@ export default function HeroSection() {
   const slide = slides[current];
 
   return (
-    <section className="relative overflow-hidden">
+    <section className="relative overflow-hidden" style={{ background: slide.bg, transition: "background 0.45s ease" }}>
+
       <AnimatePresence mode="wait">
         <motion.div
           key={slide.id}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.45 }}
-          className="relative flex items-center"
-          style={{
-            background: slide.bg,
-            minHeight: "clamp(180px, 38vw, 420px)",
-          }}
+          transition={{ duration: 0.4 }}
+          className="flex items-stretch"
+          style={{ minHeight: "clamp(200px, 40vw, 440px)" }}
         >
-          {/* Subtle right-side glow behind image */}
-          <div
-            className="absolute right-0 top-0 h-full w-1/2 pointer-events-none"
-            style={{
-              background: `radial-gradient(ellipse at 80% 50%, ${slide.bg}00 0%, ${slide.bg} 75%)`,
-            }}
-          />
-
-          <div className="w-full max-w-7xl mx-auto px-4 md:px-12 flex items-center justify-between gap-6 py-8 md:py-12">
-
-            {/* Left — text content */}
-            <div className="flex-1 min-w-0 max-w-[52%] md:max-w-md z-10">
-
+          {/* Left — text content */}
+          <div className="flex items-center w-[52%] md:w-[45%] flex-shrink-0 px-5 md:px-14 py-8 md:py-12 z-10">
+            <div>
               {/* Badge */}
               <motion.p
                 initial={{ opacity: 0, y: -6 }}
@@ -101,15 +89,15 @@ export default function HeroSection() {
 
               {/* Title + Highlight */}
               <motion.div
-                initial={{ opacity: 0, y: 10 }}
+                initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
               >
-                <h1 className="text-[20px] md:text-[44px] font-black text-gray-900 dark:text-foreground leading-tight">
+                <h1 className="text-[18px] md:text-[42px] font-black text-gray-900 leading-[1.1] dark:text-gray-900">
                   {slide.title}
                 </h1>
                 <h2
-                  className="text-[20px] md:text-[44px] font-black leading-tight mb-2 md:mb-3"
+                  className="text-[18px] md:text-[42px] font-black leading-[1.1] mb-2 md:mb-4"
                   style={{ color: "#1FA89A" }}
                 >
                   {slide.highlight}
@@ -121,7 +109,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.18 }}
-                className="text-[11px] md:text-sm text-gray-500 dark:text-muted-foreground leading-snug mb-4 md:mb-6 max-w-[95%]"
+                className="text-[10px] md:text-sm text-gray-500 leading-snug mb-4 md:mb-7 max-w-[90%]"
               >
                 {slide.subtitle}
               </motion.p>
@@ -134,7 +122,7 @@ export default function HeroSection() {
               >
                 <Link href={slide.buttonHref}>
                   <button
-                    className="inline-flex items-center gap-1.5 px-5 md:px-7 py-2 md:py-3 rounded-xl font-bold text-xs md:text-sm text-white hover:opacity-90 active:scale-95 transition-all"
+                    className="inline-flex items-center gap-1.5 px-5 md:px-7 py-2 md:py-3 rounded-xl font-bold text-xs md:text-sm text-white hover:opacity-90 active:scale-95 transition-all shadow-md"
                     style={{ background: "#1FA89A" }}
                   >
                     {slide.buttonText}
@@ -143,34 +131,32 @@ export default function HeroSection() {
                 </Link>
               </motion.div>
             </div>
-
-            {/* Right — product image */}
-            <div className="flex-shrink-0 flex items-center justify-center relative">
-              <motion.img
-                key={slide.id}
-                initial={{ opacity: 0, x: 24, scale: 0.97 }}
-                animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: -12 }}
-                transition={{ duration: 0.5, delay: 0.08 }}
-                src={slide.image}
-                alt={slide.title}
-                className="object-contain"
-                style={{
-                  width: "clamp(150px, 36vw, 420px)",
-                  height: "clamp(150px, 36vw, 420px)",
-                  filter: "drop-shadow(0 24px 48px rgba(0,0,0,0.18))",
-                }}
-              />
-            </div>
-
           </div>
+
+          {/* Right — full promotional image, fills the entire right column */}
+          <div className="flex-1 relative overflow-hidden">
+            <motion.img
+              key={slide.id}
+              initial={{ opacity: 0, scale: 1.04, x: 16 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.5, delay: 0.06 }}
+              src={slide.image}
+              alt={slide.title}
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+            {/* Left fade so image blends cleanly into the background */}
+            <div
+              className="absolute inset-y-0 left-0 w-20 md:w-32 pointer-events-none"
+              style={{ background: `linear-gradient(to right, ${slide.bg}, transparent)` }}
+            />
+          </div>
+
         </motion.div>
       </AnimatePresence>
 
       {/* Slide dots */}
-      <div
-        className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5"
-      >
+      <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-1.5 z-10">
         {slides.map((_, i) => (
           <button
             key={i}
@@ -178,11 +164,12 @@ export default function HeroSection() {
             className={`rounded-full transition-all duration-300 ${
               i === current
                 ? "w-5 h-2 bg-primary"
-                : "w-2 h-2 bg-gray-400/40 hover:bg-gray-400/70"
+                : "w-2 h-2 bg-gray-400/50 hover:bg-gray-500/60"
             }`}
           />
         ))}
       </div>
+
     </section>
   );
 }
