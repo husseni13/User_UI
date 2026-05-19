@@ -33,14 +33,14 @@ const legalLinks = [
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: "#0d1220", color: "#fff" }} className="mt-16">
+    <footer className="mt-16 bg-gray-100 dark:bg-[#0d1220] text-gray-900 dark:text-white transition-colors">
 
       {/* Newsletter */}
-      <div style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
+      <div className="border-b border-gray-200 dark:border-white/8">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
-            <h3 className="text-xl font-bold text-white">Subscribe to Our Newsletter</h3>
-            <p className="text-sm mt-1" style={{ color: "rgba(255,255,255,0.5)" }}>
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Subscribe to Our Newsletter</h3>
+            <p className="text-sm mt-1 text-gray-500 dark:text-white/50">
               Get the latest updates on new arrivals, exclusive offers and more.
             </p>
           </div>
@@ -48,17 +48,16 @@ export default function Footer() {
             <input
               type="email"
               placeholder="Enter your email address"
-              className="flex-1 md:w-72 px-4 py-2.5 rounded-xl text-sm outline-none"
-              style={{
-                backgroundColor: "rgba(255,255,255,0.08)",
-                border: "1px solid rgba(255,255,255,0.15)",
-                color: "#fff",
-              }}
+              className="flex-1 md:w-72 px-4 py-2.5 rounded-xl text-sm outline-none
+                bg-white dark:bg-white/8 
+                border border-gray-300 dark:border-white/15
+                text-gray-900 dark:text-white
+                placeholder:text-gray-400 dark:placeholder:text-white/40
+                focus:border-primary"
             />
             <button
               type="submit"
-              className="px-6 py-2.5 rounded-xl font-semibold text-sm flex-shrink-0 transition-colors"
-              style={{ backgroundColor: "var(--color-primary)", color: "#fff" }}
+              className="px-6 py-2.5 rounded-xl font-semibold text-sm flex-shrink-0 transition-colors bg-primary text-white hover:bg-primary/90"
             >
               Subscribe
             </button>
@@ -72,20 +71,21 @@ export default function Footer() {
 
           {/* Brand */}
           <div className="col-span-2">
-            <span className="text-2xl font-black tracking-tight text-white">
-              KRY<span style={{ color: "var(--color-primary)" }}>ROS</span>
+            <span className="text-2xl font-black tracking-tight text-gray-900 dark:text-white">
+              KRY<span className="text-primary">ROS</span>
             </span>
-            <p className="text-sm mt-3 leading-relaxed max-w-xs" style={{ color: "rgba(255,255,255,0.5)" }}>
+            <p className="text-sm mt-3 leading-relaxed max-w-xs text-gray-500 dark:text-white/50">
               Your trusted global e-commerce platform for tech, fashion and lifestyle products. Shopping made simple, fast and secure.
             </p>
             <div className="flex items-center gap-3 mt-4">
               {[Facebook, Instagram, Twitter, Youtube].map((Icon, i) => (
                 <button
                   key={i}
-                  className="w-8 h-8 rounded-lg flex items-center justify-center transition-all"
-                  style={{ backgroundColor: "rgba(255,255,255,0.08)" }}
+                  className="w-8 h-8 rounded-lg flex items-center justify-center transition-all
+                    bg-gray-200 dark:bg-white/8
+                    hover:bg-primary/20 hover:text-primary text-gray-600 dark:text-white"
                 >
-                  <Icon className="w-4 h-4 text-white" />
+                  <Icon className="w-4 h-4" />
                 </button>
               ))}
             </div>
@@ -93,15 +93,12 @@ export default function Footer() {
 
           {/* Shop */}
           <div>
-            <h4 className="font-bold text-white text-sm mb-4">Shop</h4>
+            <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Shop</h4>
             <ul className="space-y-2">
               {shopLinks.map(({ label, href }) => (
                 <li key={label}>
                   <Link href={href}>
-                    <span
-                      className="text-sm hover:text-white transition-colors cursor-pointer"
-                      style={{ color: "rgba(255,255,255,0.5)" }}
-                    >
+                    <span className="text-sm text-gray-500 dark:text-white/50 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer">
                       {label}
                     </span>
                   </Link>
@@ -112,15 +109,12 @@ export default function Footer() {
 
           {/* Customer Service */}
           <div>
-            <h4 className="font-bold text-white text-sm mb-4">Customer Service</h4>
+            <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Customer Service</h4>
             <ul className="space-y-2">
               {serviceLinks.map(({ label, href }) => (
                 <li key={label}>
                   <Link href={href}>
-                    <span
-                      className="text-sm hover:text-white transition-colors cursor-pointer"
-                      style={{ color: "rgba(255,255,255,0.5)" }}
-                    >
+                    <span className="text-sm text-gray-500 dark:text-white/50 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer">
                       {label}
                     </span>
                   </Link>
@@ -131,30 +125,24 @@ export default function Footer() {
 
           {/* Company + Legal */}
           <div>
-            <h4 className="font-bold text-white text-sm mb-4">Company</h4>
+            <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Company</h4>
             <ul className="space-y-2">
               {companyLinks.map(({ label, href }) => (
                 <li key={label}>
                   <Link href={href}>
-                    <span
-                      className="text-sm hover:text-white transition-colors cursor-pointer"
-                      style={{ color: "rgba(255,255,255,0.5)" }}
-                    >
+                    <span className="text-sm text-gray-500 dark:text-white/50 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer">
                       {label}
                     </span>
                   </Link>
                 </li>
               ))}
             </ul>
-            <h4 className="font-bold text-white text-sm mb-3 mt-5">Legal</h4>
+            <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-3 mt-5">Legal</h4>
             <ul className="space-y-2">
               {legalLinks.map(({ label, href }) => (
                 <li key={label}>
                   <Link href={href}>
-                    <span
-                      className="text-sm hover:text-white transition-colors cursor-pointer"
-                      style={{ color: "rgba(255,255,255,0.5)" }}
-                    >
+                    <span className="text-sm text-gray-500 dark:text-white/50 hover:text-primary dark:hover:text-primary transition-colors cursor-pointer">
                       {label}
                     </span>
                   </Link>
@@ -165,31 +153,32 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="font-bold text-white text-sm mb-4">Contact Info</h4>
+            <h4 className="font-bold text-gray-900 dark:text-white text-sm mb-4">Contact Info</h4>
             <div className="space-y-3">
               <div className="flex items-start gap-2">
-                <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0" style={{ color: "var(--color-primary)" }} />
-                <span className="text-xs leading-relaxed" style={{ color: "rgba(255,255,255,0.5)" }}>
+                <MapPin className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                <span className="text-xs leading-relaxed text-gray-500 dark:text-white/50">
                   KRYROS MOBILE TECH LIMITED<br />West Sussex, Burgess Hill, UK
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 flex-shrink-0" style={{ color: "var(--color-primary)" }} />
-                <span className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>support@kryros.com</span>
+                <Mail className="w-4 h-4 text-primary flex-shrink-0" />
+                <span className="text-xs text-gray-500 dark:text-white/50">support@kryros.com</span>
               </div>
               <div className="flex items-center gap-2">
-                <Phone className="w-4 h-4 flex-shrink-0" style={{ color: "var(--color-primary)" }} />
-                <span className="text-xs" style={{ color: "rgba(255,255,255,0.5)" }}>+1(800) 123-4567</span>
+                <Phone className="w-4 h-4 text-primary flex-shrink-0" />
+                <span className="text-xs text-gray-500 dark:text-white/50">+1(800) 123-4567</span>
               </div>
             </div>
             <div className="mt-5">
-              <p className="text-xs mb-2" style={{ color: "rgba(255,255,255,0.3)" }}>We accept</p>
+              <p className="text-xs mb-2 text-gray-400 dark:text-white/30">We accept</p>
               <div className="flex flex-wrap gap-1">
                 {["VISA", "MC", "PayPal", "G Pay", "Apple"].map((m) => (
                   <span
                     key={m}
-                    className="text-[10px] px-2 py-1 rounded font-medium"
-                    style={{ backgroundColor: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.6)" }}
+                    className="text-[10px] px-2 py-1 rounded font-medium
+                      bg-gray-200 dark:bg-white/8
+                      text-gray-600 dark:text-white/60"
                   >
                     {m}
                   </span>
@@ -201,12 +190,12 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}>
+      <div className="border-t border-gray-200 dark:border-white/8">
         <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex flex-col md:flex-row items-center justify-between gap-2">
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <p className="text-xs text-gray-400 dark:text-white/30">
             &copy; 2024 KRYROS MOBILE TECH LIMITED. All Rights Reserved.
           </p>
-          <p className="text-xs text-center" style={{ color: "rgba(255,255,255,0.3)" }}>
+          <p className="text-xs text-center text-gray-400 dark:text-white/30">
             Trusted Online Store | Secure Payments | Customer Support Available 24/7
           </p>
         </div>
