@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "wouter";
-import { Zap, Heart, ShoppingCart, Star } from "lucide-react";
+import { Zap, Heart, ShoppingCart, Star, ChevronRight } from "lucide-react";
 import { products } from "@/data/mockData";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
@@ -13,22 +13,10 @@ function useCountdown(initialSeconds: number) {
     const t = setInterval(() => setTotal((p) => Math.max(0, p - 1)), 1000);
     return () => clearInterval(t);
   }, []);
-  const days = Math.floor(total / 86400);
   const hours = Math.floor((total % 86400) / 3600);
   const mins = Math.floor((total % 3600) / 60);
   const secs = total % 60;
-  return { days, hours, mins, secs };
-}
-
-function TimeBox({ val, label }: { val: number; label: string }) {
-  return (
-    <div className="flex flex-col items-center">
-      <div className="w-10 h-10 md:w-12 md:h-12 bg-black/30 rounded-lg md:rounded-xl flex items-center justify-center border border-white/10">
-        <span className="text-base md:text-xl font-black text-white tabular-nums">{String(val).padStart(2, "0")}</span>
-      </div>
-      <span className="text-[8px] md:text-[10px] text-white/50 mt-1 capitalize">{label}</span>
-    </div>
-  );
+  return { hours, mins, secs };
 }
 
 function FlashCard({ product }: { product: Product }) {
@@ -39,7 +27,7 @@ function FlashCard({ product }: { product: Product }) {
 
   return (
     <div
-      className="flex-shrink-0 w-[148px] md:w-[175px] bg-card border border-border rounded-2xl overflow-hidden cursor-pointer group hover:shadow-lg hover:border-primary/30 transition-all duration-200"
+      className="flex-shrink-0 w-[155px] md:w-[175px] bg-card border border-border rounded-2xl overflow-hidden cursor-pointer group hover:shadow-md hover:border-primary/30 transition-all duration-200"
       onClick={() => (window.location.href = `/product/${product.id}`)}
     >
       <div className="relative bg-muted aspect-square">
@@ -72,20 +60,13 @@ function FlashCard({ product }: { product: Product }) {
       <div className="p-2.5">
         <p className="text-xs font-semibold text-foreground leading-tight line-clamp-2 mb-1.5 min-h-[30px]">{product.name}</p>
         <div className="flex items-center gap-0.5 mb-1.5">
-          {[...Array(5)].map((_, i) => (
-            <Star
-              key={i}
-              className={`w-2.5 h-2.5 ${i < Math.floor(product.rating) ? "fill-yellow-400 text-yellow-400" : "text-muted-foreground/20"}`}
-            />
-          ))}
-          <span className="text-[9px] text-muted-foreground ml-0.5">({product.reviewCount})</span>
+          <Star className="w-2.5 h-2.5 fill-yellow-400 text-yellow-400" />
+          <span className="text-[10px] text-muted-foreground ml-0.5">{product.rating}</span>
         </div>
         <div className="flex items-end justify-between gap-1">
           <div>
-            <div className="text-sm font-black text-foreground">${product.price.toLocaleString()}</div>
-            <div className="flex items-center gap-1">
-              <span className="text-[10px] text-muted-foreground line-through">${product.oldPrice.toLocaleString()}</span>
-            </div>
+            <div className="text-sm font-black text-primary">${product.price.toLocaleString()}</div>
+            <span className="text-[10px] text-muted-foreground line-through">${product.oldPrice.toLocaleString()}</span>
           </div>
           <button
             onClick={(e) => {
@@ -105,80 +86,59 @@ function FlashCard({ product }: { product: Product }) {
 }
 
 export default function FlashSaleSection() {
-  const countdown = useCountdown(2 * 86400 + 18 * 3600 + 45 * 60 + 30);
+  const { hours, mins, secs } = useCountdown(8 * 3600 + 45 * 60 + 32);
   const flashProducts = products.slice(0, 6);
 
   return (
-    <section className="py-0">
-      {/* Flash Sale Banner */}
-      <div
-        className="mx-0 relative overflow-hidden"
-        style={{ background: "linear-gradient(135deg, #0a6b60 0%, #0d8a7a 40%, #087a6c 100%)" }}
-      >
-        <div className="flex items-center justify-between px-4 md:px-8 py-4 md:py-5 gap-3">
-          {/* Left */}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5 mb-0.5">
-              <span className="text-base md:text-2xl font-black text-white">Flash Sale</span>
-              <Zap className="w-4 h-4 md:w-5 md:h-5 fill-yellow-300 text-yellow-300" />
-            </div>
-            <p className="text-white/60 text-[10px] md:text-sm mb-2 md:mb-3">Limited Time Offer</p>
-            <div className="flex items-center gap-1.5 md:gap-2">
-              <TimeBox val={countdown.days} label="Days" />
-              <span className="text-white/40 font-black text-base md:text-lg mb-4">:</span>
-              <TimeBox val={countdown.hours} label="Hours" />
-              <span className="text-white/40 font-black text-base md:text-lg mb-4">:</span>
-              <TimeBox val={countdown.mins} label="Min" />
-              <span className="text-white/40 font-black text-base md:text-lg mb-4">:</span>
-              <TimeBox val={countdown.secs} label="Secs" />
-            </div>
-            <Link href="/shop">
-              <button className="mt-3 px-5 py-2 bg-white text-primary rounded-xl font-bold text-sm hover:bg-white/90 transition-all active:scale-95">
-                Shop Now
-              </button>
-            </Link>
-          </div>
-
-          {/* Right: watch image + badge */}
-          <div className="relative flex-shrink-0 flex items-center gap-2">
-            <div className="hidden md:flex flex-col items-center justify-center w-20 h-20 rounded-full border-4 border-white/20 text-white">
-              <span className="text-[8px] font-bold text-white/70 leading-none">UP TO</span>
-              <span className="text-xl font-black leading-none">50%</span>
-              <span className="text-[8px] font-bold text-white/70 leading-none">OFF</span>
-            </div>
-            <img
-              src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=200&q=80"
-              alt="Flash sale product"
-              className="w-20 h-20 md:w-28 md:h-28 object-cover rounded-xl md:rounded-2xl shadow-xl"
-            />
-            <div className="md:hidden flex flex-col items-center justify-center w-14 h-14 rounded-full border-2 border-white/20 text-white ml-1">
-              <span className="text-[7px] font-bold text-white/70 leading-none">UP TO</span>
-              <span className="text-sm font-black leading-none">50%</span>
-              <span className="text-[7px] font-bold text-white/70 leading-none">OFF</span>
-            </div>
-          </div>
+    <section className="max-w-7xl mx-auto px-4 md:px-6 py-6">
+      {/* Header row */}
+      <div className="flex items-center justify-between mb-3">
+        <div className="flex items-center gap-1.5">
+          <Zap className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+          <h2 className="text-base md:text-xl font-black text-foreground">Flash Sale</h2>
         </div>
-
+        <Link href="/shop">
+          <span className="flex items-center gap-0.5 text-xs md:text-sm text-primary font-semibold cursor-pointer hover:underline">
+            View All Deals <ChevronRight className="w-3.5 h-3.5" />
+          </span>
+        </Link>
       </div>
 
-      {/* Flash Deals horizontal scroll */}
-      <div className="px-3 md:px-6 max-w-7xl mx-auto mt-4 md:mt-6">
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-1.5">
-            <h2 className="text-base md:text-xl font-black text-foreground">Flash Deals</h2>
-            <Zap className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+      {/* Single horizontal scroll row: timer card + product cards */}
+      <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: "none" }}>
+
+        {/* Timer card — first item in the row */}
+        <div className="flex-shrink-0 w-[140px] md:w-[155px] bg-card border border-border rounded-2xl flex flex-col items-center justify-center p-4 gap-2">
+          <p className="text-[10px] text-muted-foreground font-medium">Ends In</p>
+          {/* Time digits */}
+          <div className="flex items-center gap-1">
+            <div className="flex flex-col items-center">
+              <span className="text-2xl font-black text-primary tabular-nums leading-none">
+                {String(hours).padStart(2, "0")}
+              </span>
+              <span className="text-[8px] text-muted-foreground mt-0.5 uppercase tracking-wide">HRS</span>
+            </div>
+            <span className="text-xl font-black text-primary mb-3">:</span>
+            <div className="flex flex-col items-center">
+              <span className="text-2xl font-black text-primary tabular-nums leading-none">
+                {String(mins).padStart(2, "0")}
+              </span>
+              <span className="text-[8px] text-muted-foreground mt-0.5 uppercase tracking-wide">MINS</span>
+            </div>
+            <span className="text-xl font-black text-primary mb-3">:</span>
+            <div className="flex flex-col items-center">
+              <span className="text-2xl font-black text-primary tabular-nums leading-none">
+                {String(secs).padStart(2, "0")}
+              </span>
+              <span className="text-[8px] text-muted-foreground mt-0.5 uppercase tracking-wide">SECS</span>
+            </div>
           </div>
-          <Link href="/shop">
-            <span className="text-xs md:text-sm text-primary font-semibold cursor-pointer hover:underline">
-              View All +
-            </span>
-          </Link>
         </div>
-        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1">
-          {flashProducts.map((p) => (
-            <FlashCard key={p.id} product={p} />
-          ))}
-        </div>
+
+        {/* Product cards */}
+        {flashProducts.map((p) => (
+          <FlashCard key={p.id} product={p} />
+        ))}
       </div>
     </section>
   );
