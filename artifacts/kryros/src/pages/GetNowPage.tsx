@@ -117,7 +117,7 @@ export default function GetNowPage() {
             <span className="text-xs text-primary font-semibold cursor-pointer">View All</span>
           </Link>
         </div>
-        <div className="flex gap-3 overflow-x-auto pb-1 -mx-4 px-4" style={{ scrollbarWidth: "none" }}>
+        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4">
           {getNowProducts.map((p, i) => (
             <motion.div
               key={p.id}

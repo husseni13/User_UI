@@ -105,7 +105,7 @@ export default function FlashSaleSection() {
       </div>
 
       {/* Single horizontal scroll row: timer card + product cards */}
-      <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: "none" }}>
+      <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
 
         {/* Timer card — first item in the row */}
         <div className="flex-shrink-0 w-[140px] md:w-[155px] bg-card border border-border rounded-2xl flex flex-col items-center justify-center p-4 gap-2">

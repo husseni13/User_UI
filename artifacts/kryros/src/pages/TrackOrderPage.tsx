@@ -114,7 +114,7 @@ export default function TrackOrderPage() {
 
       {/* All Orders */}
       <h2 className="text-sm font-bold text-foreground mb-3">All Orders</h2>
-      <div className="flex gap-2 overflow-x-auto pb-2 mb-4" style={{ scrollbarWidth: "none" }}>
+      <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2 mb-4">
         {filterTabs.map((tab) => (
           <button
             key={tab}

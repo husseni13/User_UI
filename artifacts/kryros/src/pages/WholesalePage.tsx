@@ -89,7 +89,7 @@ export default function WholesalePage() {
           <h2 className="text-sm font-bold text-foreground">Shop by Category</h2>
           <span className="text-xs text-primary font-semibold cursor-pointer">View All</span>
         </div>
-        <div className="flex gap-3 overflow-x-auto pb-1 -mx-4 px-4" style={{ scrollbarWidth: "none" }}>
+        <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1 -mx-4 px-4">
           {categories.map((cat) => (
             <div key={cat.id} className="flex flex-col items-center gap-1.5 flex-shrink-0 cursor-pointer group">
               <div className="w-[58px] h-[58px] rounded-2xl overflow-hidden border border-border group-hover:border-primary transition-all">

@@ -72,8 +72,8 @@ export default function CategoryPromoBanners() {
     <section className="max-w-7xl mx-auto px-4 md:px-6 mb-8">
       {/* Horizontal scroll container */}
       <div
-        className="flex gap-3 overflow-x-auto pb-2"
-        style={{ scrollSnapType: "x mandatory", scrollbarWidth: "none", msOverflowStyle: "none" }}
+        className="flex gap-3 overflow-x-auto no-scrollbar pb-2"
+        style={{ scrollSnapType: "x mandatory" }}
       >
         {BANNERS.map((b) => (
           <Link key={b.id} href={b.href}>

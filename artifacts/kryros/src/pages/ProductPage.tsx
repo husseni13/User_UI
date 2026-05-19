@@ -239,7 +239,7 @@ export default function ProductPage() {
             <p className="text-sm font-bold text-foreground">Payment Methods</p>
             <button className="text-xs text-primary font-semibold">View all</button>
           </div>
-          <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1">
             {[
               { label: "Card", icon: CreditCard },
               { label: "Mobile Money", icon: Smartphone },

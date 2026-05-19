@@ -25,7 +25,7 @@ export default function FaqPage() {
       <p className="text-xs text-muted-foreground mb-5">Find quick answers to common questions.</p>
 
       {/* Tabs */}
-      <div className="flex gap-2 overflow-x-auto pb-2 mb-5" style={{ scrollbarWidth: "none" }}>
+      <div className="flex gap-2 overflow-x-auto no-scrollbar pb-2 mb-5">
         {tabs.map((tab) => (
           <button
             key={tab}
