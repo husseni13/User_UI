@@ -34,7 +34,7 @@ import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
 
-const NO_LAYOUT_ROUTES = ["/login", "/register"];
+const NO_LAYOUT_ROUTES = ["/login", "/register", "/dashboard"];
 
 function Layout({ children, path }: { children: React.ReactNode; path: string }) {
   const noLayout = NO_LAYOUT_ROUTES.some((r) => path.startsWith(r));

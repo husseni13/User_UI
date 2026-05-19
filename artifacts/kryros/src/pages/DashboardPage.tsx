@@ -3,7 +3,7 @@ import { Link } from "wouter";
 import {
   LayoutDashboard, Package, Heart, MapPin, CreditCard, Zap, ShoppingBag,
   MessageCircle, Bell, RefreshCcw, Star, Settings, ChevronRight, Check,
-  Truck, MoreVertical, Plus, Globe, Sun, DollarSign, X,
+  Truck, MoreVertical, Plus, Globe, Sun, DollarSign, X, Search, ChevronDown, Menu,
 } from "lucide-react";
 
 const sidebarItems = [
@@ -73,13 +73,20 @@ const quickActions = [
 export default function DashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const Sidebar = () => (
-    <div className="flex flex-col h-full">
-      {/* Logo */}
+  const SidebarContent = () => (
+    <div className="flex flex-col h-full bg-background">
+      {/* Logo row */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-        <span className="text-lg font-black text-foreground">KRY<span className="text-primary">ROS</span></span>
-        <button className="lg:hidden w-7 h-7 rounded-full bg-muted flex items-center justify-center" onClick={() => setSidebarOpen(false)}>
-          <X className="w-4 h-4" />
+        <Link href="/">
+          <span className="text-lg font-black text-foreground cursor-pointer">
+            KRY<span className="text-primary">ROS</span>
+          </span>
+        </Link>
+        <button
+          className="w-7 h-7 flex items-center justify-center hover:bg-muted rounded-full transition-colors"
+          onClick={() => setSidebarOpen(false)}
+        >
+          <X className="w-4 h-4 text-muted-foreground" />
         </button>
       </div>
 
@@ -87,13 +94,19 @@ export default function DashboardPage() {
       <nav className="flex-1 p-2 overflow-y-auto">
         {sidebarItems.map(({ icon: Icon, label, href, active, badge }) => (
           <Link key={label} href={href}>
-            <div onClick={() => setSidebarOpen(false)} className={`flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all mb-0.5 ${active ? "bg-primary text-white" : "hover:bg-muted text-foreground"}`}>
+            <div
+              onClick={() => setSidebarOpen(false)}
+              className={`flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all mb-0.5
+                ${active ? "bg-primary/10 text-primary" : "hover:bg-muted text-foreground"}`}
+            >
               <div className="flex items-center gap-2.5">
-                <Icon className="w-4 h-4" />
-                <span className="text-xs font-medium">{label}</span>
+                <Icon className={`w-4 h-4 ${active ? "text-primary" : "text-muted-foreground"}`} />
+                <span className={`text-sm font-medium ${active ? "font-semibold text-primary" : ""}`}>{label}</span>
               </div>
               {badge && (
-                <span className={`text-[9px] font-black w-4 h-4 rounded-full flex items-center justify-center ${active ? "bg-white text-primary" : "bg-primary text-white"}`}>{badge}</span>
+                <span className="text-[9px] font-black w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center">
+                  {badge}
+                </span>
               )}
             </div>
           </Link>
@@ -101,7 +114,7 @@ export default function DashboardPage() {
       </nav>
 
       {/* Bottom settings */}
-      <div className="border-t border-border p-3 space-y-1">
+      <div className="border-t border-border p-3 space-y-0.5">
         {[
           { icon: DollarSign, label: "USD - US Dollar" },
           { icon: Globe, label: "English" },
@@ -112,10 +125,10 @@ export default function DashboardPage() {
               <Icon className="w-3.5 h-3.5 text-muted-foreground" />
               <span className="text-xs text-muted-foreground">{label}</span>
             </div>
-            <ChevronRight className="w-3 h-3 text-muted-foreground" />
+            <ChevronDown className="w-3 h-3 text-muted-foreground" />
           </div>
         ))}
-        <div className="pt-1 space-y-0.5">
+        <div className="pt-2 space-y-0.5">
           {footerLinks.map(({ label, href }) => (
             <Link key={label} href={href}>
               <p className="px-3 py-1 text-[10px] text-muted-foreground hover:text-primary cursor-pointer transition-colors">{label}</p>
@@ -129,24 +142,59 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* Desktop sidebar */}
-      <aside className="hidden lg:flex flex-col w-52 flex-shrink-0 border-r border-border sticky top-0 h-screen overflow-hidden">
-        <Sidebar />
+      {/* Desktop sidebar — fixed, always visible */}
+      <aside className="hidden lg:flex flex-col w-56 flex-shrink-0 border-r border-border sticky top-0 h-screen overflow-hidden">
+        <SidebarContent />
       </aside>
 
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-50 lg:hidden flex">
-          <div className="absolute inset-0 bg-black/40" onClick={() => setSidebarOpen(false)} />
-          <div className="relative w-56 bg-card h-full flex flex-col shadow-2xl z-10">
-            <Sidebar />
+          <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setSidebarOpen(false)} />
+          <div className="relative w-56 bg-background h-full flex flex-col shadow-2xl z-10 border-r border-border">
+            <SidebarContent />
           </div>
         </div>
       )}
 
       {/* Main content */}
       <main className="flex-1 min-w-0 overflow-y-auto">
-        <div className="max-w-4xl mx-auto px-4 md:px-6 py-6 pb-28 lg:pb-10">
+
+        {/* Top bar */}
+        <div className="sticky top-0 z-20 bg-background border-b border-border flex items-center justify-between px-4 md:px-6 py-3">
+          <button
+            className="lg:hidden w-8 h-8 flex items-center justify-center rounded-xl hover:bg-muted transition-colors"
+            onClick={() => setSidebarOpen(true)}
+          >
+            <Menu className="w-5 h-5 text-foreground" />
+          </button>
+          <div className="hidden lg:block" />
+          <div className="flex items-center gap-4">
+            <button className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-muted transition-colors">
+              <Search className="w-4.5 h-4.5 text-foreground" style={{ width: 18, height: 18 }} />
+            </button>
+            <Link href="/shop">
+              <button className="relative w-8 h-8 flex items-center justify-center rounded-xl hover:bg-muted transition-colors">
+                <Heart className="text-foreground" style={{ width: 18, height: 18 }} />
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-white text-[8px] font-black flex items-center justify-center">2</span>
+              </button>
+            </Link>
+            <Link href="/cart">
+              <button className="relative w-8 h-8 flex items-center justify-center rounded-xl hover:bg-muted transition-colors">
+                <ShoppingBag className="text-foreground" style={{ width: 18, height: 18 }} />
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-white text-[8px] font-black flex items-center justify-center">2</span>
+              </button>
+            </Link>
+            <div className="flex items-center gap-1.5 cursor-pointer">
+              <div className="w-8 h-8 rounded-full overflow-hidden bg-muted flex-shrink-0 ring-2 ring-primary/30">
+                <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=60&q=80" alt="Alex" className="w-full h-full object-cover" />
+              </div>
+              <ChevronDown className="w-3.5 h-3.5 text-muted-foreground" />
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-5xl mx-auto px-4 md:px-6 py-6 pb-28 lg:pb-10">
 
           {/* Page header */}
           <div className="mb-6">
@@ -155,54 +203,50 @@ export default function DashboardPage() {
           </div>
 
           {/* 4 Stat cards */}
-          <div className="grid grid-cols-2 gap-3 mb-5">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
             {[
-              { icon: ShoppingBag, label: "Total Orders", value: "24", sub: "View all orders →", href: "/track", iconBg: "#e6fafa", iconColor: "#0d9488" },
+              { icon: ShoppingBag, label: "Total Orders", value: "24", sub: "View all orders →", href: "/track", iconBg: "#e6faf8", iconColor: "#0d9488" },
               { icon: Heart, label: "Wishlist Items", value: "18", sub: "View wishlist →", href: "/shop", iconBg: "#fdf2f8", iconColor: "#ec4899" },
               { icon: Zap, label: "Get Now Credit", value: "$2,450.00", sub: "View plans →", href: "/get-now", iconBg: "#fff7ed", iconColor: "#f97316" },
               { icon: MapPin, label: "Saved Addresses", value: "4", sub: "Manage addresses →", href: "/dashboard", iconBg: "#f5f3ff", iconColor: "#8b5cf6" },
             ].map(({ icon: Icon, label, value, sub, href, iconBg, iconColor }) => (
               <Link key={label} href={href}>
-                <div className="bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary/20 transition-all cursor-pointer">
-                  {/* Large circle icon */}
-                  <div
-                    className="w-14 h-14 rounded-full flex items-center justify-center mb-4"
-                    style={{ background: iconBg }}
-                  >
+                <div className="bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary/20 transition-all cursor-pointer h-full">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4" style={{ background: iconBg }}>
                     <Icon style={{ width: 26, height: 26, color: iconColor }} />
                   </div>
                   <p className="text-xs text-muted-foreground mb-1">{label}</p>
-                  <p className="text-2xl font-black text-foreground mb-2 leading-tight">{value}</p>
-                  <p className="text-xs font-semibold" style={{ color: "#0d9488" }}>{sub}</p>
+                  <p className="text-xl font-black text-foreground mb-2 leading-tight">{value}</p>
+                  <p className="text-xs font-semibold text-primary">{sub}</p>
                 </div>
               </Link>
             ))}
           </div>
 
           {/* Recent Orders + Order Tracking */}
-          <div className="grid md:grid-cols-2 gap-4 mb-4">
+          <div className="grid lg:grid-cols-2 gap-4 mb-4">
 
             {/* Recent Orders */}
             <div className="bg-card border border-border rounded-2xl p-5">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-bold text-foreground">Recent Orders</h2>
                 <Link href="/track">
-                  <span className="flex items-center gap-0.5 text-xs text-primary cursor-pointer hover:underline">
+                  <span className="flex items-center gap-0.5 text-xs text-primary cursor-pointer hover:underline font-medium">
                     View All Orders <ChevronRight className="w-3 h-3" />
                   </span>
                 </Link>
               </div>
-              <div className="space-y-2.5">
+              <div className="space-y-1.5">
                 {recentOrders.map((order) => (
-                  <div key={order.id} className="flex items-center gap-3 rounded-xl p-1.5 hover:bg-muted/50 transition-all cursor-pointer -mx-1.5">
-                    <img src={order.image} alt={order.name} className="w-10 h-10 object-cover rounded-xl bg-muted flex-shrink-0" />
+                  <div key={order.id} className="flex items-center gap-3 rounded-xl p-2 hover:bg-muted/50 transition-all cursor-pointer">
+                    <img src={order.image} alt={order.name} className="w-11 h-11 object-cover rounded-xl bg-muted flex-shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-semibold text-foreground truncate">{order.name}</p>
                       <p className="text-[10px] text-muted-foreground">Order ID: {order.orderId}</p>
                       <p className="text-[10px] text-muted-foreground">{order.date}</p>
                     </div>
                     <div className="flex items-center gap-1.5 flex-shrink-0">
-                      <span className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${statusColors[order.status]}`}>
+                      <span className={`text-[9px] font-bold px-2 py-1 rounded-full ${statusColors[order.status] ?? "bg-muted text-muted-foreground"}`}>
                         {order.status}
                       </span>
                       <ChevronRight className="w-3 h-3 text-muted-foreground" />
@@ -217,50 +261,73 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between mb-3">
                 <h2 className="text-sm font-bold text-foreground">Order Tracking</h2>
                 <Link href="/track">
-                  <span className="flex items-center gap-0.5 text-xs text-primary cursor-pointer hover:underline">
+                  <span className="flex items-center gap-0.5 text-xs text-primary cursor-pointer hover:underline font-medium">
                     Track Your Order <ChevronRight className="w-3 h-3" />
                   </span>
                 </Link>
               </div>
-              <p className="text-[10px] text-muted-foreground mb-2">Latest Order</p>
-              <div className="flex items-center gap-3 mb-4 p-2 bg-muted/40 rounded-xl">
-                <img src={recentOrders[0].image} alt={recentOrders[0].name} className="w-10 h-10 object-cover rounded-xl bg-muted flex-shrink-0" />
+              <p className="text-[10px] text-muted-foreground mb-2 font-medium">Latest Order</p>
+              <div className="flex items-center gap-3 mb-5 p-2 rounded-xl">
+                <img src={recentOrders[0].image} alt={recentOrders[0].name} className="w-12 h-12 object-cover rounded-xl bg-muted flex-shrink-0" />
                 <div>
                   <p className="text-xs font-bold text-foreground">{recentOrders[0].name}</p>
                   <p className="text-[10px] text-muted-foreground">Order ID: {recentOrders[0].orderId}</p>
                 </div>
               </div>
 
-              {/* Timeline */}
-              <div className="flex items-start mb-4">
+              {/* Tracking timeline */}
+              <div className="flex items-start mb-5 px-1">
                 {trackingTimeline.map((step, i) => (
-                  <div key={step.label} className="flex items-center flex-1">
+                  <div key={step.label} className="flex items-start flex-1">
                     <div className="flex flex-col items-center flex-1">
                       <div className="flex items-center w-full">
-                        {i > 0 && <div className={`flex-1 h-0.5 ${step.done || trackingTimeline[i-1].done ? "bg-primary" : "bg-border"}`} />}
-                        <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 z-10 ${step.active ? "bg-primary ring-4 ring-primary/20" : step.done ? "bg-primary" : "bg-muted border-2 border-border"}`}>
-                          {step.done && !step.active && <Check className="w-3 h-3 text-white" />}
-                          {step.active && <Truck className="w-3 h-3 text-white" />}
-                          {!step.done && <MapPin className="w-2.5 h-2.5 text-muted-foreground" />}
+                        {i > 0 && (
+                          <div className={`flex-1 h-0.5 -mt-0 ${trackingTimeline[i - 1].done ? "bg-primary" : "bg-border"}`} />
+                        )}
+                        <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 z-10 border-2
+                          ${step.active
+                            ? "bg-primary border-primary ring-4 ring-primary/20"
+                            : step.done
+                            ? "bg-primary border-primary"
+                            : "bg-background border-border"}`}
+                        >
+                          {step.active && <Truck className="w-3.5 h-3.5 text-white" />}
+                          {step.done && !step.active && <Check className="w-3.5 h-3.5 text-white" />}
+                          {!step.done && <MapPin className="w-3 h-3 text-muted-foreground" />}
                         </div>
-                        {i < trackingTimeline.length - 1 && <div className={`flex-1 h-0.5 ${step.done && !step.active ? "bg-primary" : "bg-border"}`} />}
+                        {i < trackingTimeline.length - 1 && (
+                          <div className={`flex-1 h-0.5 ${step.done && !step.active ? "bg-primary" : "bg-border"}`} />
+                        )}
                       </div>
-                      <p className={`text-[8px] text-center mt-1 font-medium leading-tight ${step.active ? "text-primary" : step.done ? "text-foreground" : "text-muted-foreground"}`}>
-                        {step.label.split(" ")[0]}
+                      <p className={`text-[9px] text-center mt-1.5 font-semibold leading-tight px-0.5
+                        ${step.active ? "text-primary" : step.done ? "text-foreground" : "text-muted-foreground"}`}>
+                        {step.label}
                       </p>
-                      <p className="text-[8px] text-muted-foreground text-center">{step.date}</p>
+                      <p className="text-[8px] text-muted-foreground text-center mt-0.5">{step.date}</p>
                     </div>
                   </div>
                 ))}
               </div>
 
-              {/* Estimated delivery */}
-              <div className="bg-muted/40 rounded-xl p-3 flex items-center justify-between">
+              {/* Estimated delivery banner */}
+              <div className="bg-muted/40 rounded-2xl p-4 flex items-center justify-between overflow-hidden">
                 <div>
-                  <p className="text-[10px] text-muted-foreground">Estimated Delivery</p>
-                  <p className="text-base font-black text-foreground">May 20, 2024</p>
+                  <p className="text-[10px] text-muted-foreground mb-0.5">Estimated Delivery</p>
+                  <p className="text-lg font-black text-primary">May 20, 2024</p>
                 </div>
-                <Truck className="w-10 h-10 text-muted-foreground/30" />
+                <div className="flex-shrink-0 opacity-20">
+                  <svg viewBox="0 0 80 50" className="w-20 h-12" fill="none">
+                    <rect x="2" y="20" width="50" height="22" rx="3" fill="currentColor" className="text-foreground" />
+                    <polygon points="52,20 52,36 66,36 66,28" fill="currentColor" className="text-foreground" />
+                    <rect x="56" y="36" width="8" height="4" rx="2" fill="currentColor" className="text-muted-foreground" />
+                    <circle cx="14" cy="40" r="5" fill="currentColor" className="text-foreground" />
+                    <circle cx="14" cy="40" r="2" fill="white" />
+                    <circle cx="58" cy="40" r="5" fill="currentColor" className="text-foreground" />
+                    <circle cx="58" cy="40" r="2" fill="white" />
+                    <rect x="6" y="24" width="8" height="6" rx="1" fill="white" opacity="0.6" />
+                    <rect x="18" y="24" width="12" height="6" rx="1" fill="white" opacity="0.4" />
+                  </svg>
+                </div>
               </div>
             </div>
           </div>
@@ -268,40 +335,43 @@ export default function DashboardPage() {
           {/* Get Now Banner */}
           <div
             className="rounded-2xl overflow-hidden mb-4 relative"
-            style={{ background: "linear-gradient(135deg, #07392f 0%, #0a5544 50%, #064535 100%)", minHeight: 140 }}
+            style={{ background: "linear-gradient(135deg, #07392f 0%, #0a5544 60%, #073d2e 100%)" }}
           >
-            <div className="flex items-center justify-between p-5 md:p-6 relative z-10">
+            <div className="flex items-center justify-between p-5 md:p-6">
               <div className="flex-1">
-                <h3 className="text-lg md:text-xl font-black text-white mb-1">Get More with Get Now</h3>
-                <p className="text-white/60 text-xs mb-4 leading-snug max-w-[220px]">
+                <h3 className="text-xl font-black text-white mb-1">Get More with Get Now</h3>
+                <p className="text-white/60 text-xs mb-5 max-w-[220px] leading-relaxed">
                   Shop now and pay later with flexible plans that suit you.
                 </p>
                 <Link href="/get-now">
-                  <button className="px-5 py-2 bg-white text-foreground rounded-xl font-bold text-sm hover:bg-white/90 transition-all">
+                  <button className="px-5 py-2.5 bg-white text-foreground rounded-xl font-bold text-sm hover:bg-white/90 transition-all">
                     Explore Plans
                   </button>
                 </Link>
               </div>
-              {/* Right: product collage + badges */}
-              <div className="flex-shrink-0 relative hidden md:block" style={{ width: 260, height: 120 }}>
-                {/* Badges */}
-                <div className="absolute top-0 left-0 flex items-center gap-1.5 bg-white/15 border border-white/20 rounded-xl px-2.5 py-1.5 backdrop-blur-sm">
+              <div className="flex-shrink-0 relative hidden md:flex items-end gap-2" style={{ height: 120 }}>
+                {/* Instant Approval badge */}
+                <div className="absolute -top-2 left-0 flex items-center gap-1.5 bg-white/15 border border-white/20 rounded-xl px-2.5 py-1.5 backdrop-blur-sm z-10">
                   <Check className="w-3 h-3 text-primary" />
                   <span className="text-[10px] font-bold text-white">Instant Approval</span>
                 </div>
-                <div className="absolute top-0 right-0 flex items-center gap-1.5 bg-white/15 border border-white/20 rounded-xl px-2.5 py-1.5 backdrop-blur-sm">
+                {/* 0% Interest badge */}
+                <div className="absolute -top-2 right-0 flex items-center gap-1.5 bg-white/15 border border-white/20 rounded-xl px-2.5 py-1.5 backdrop-blur-sm z-10">
                   <span className="text-[10px] font-bold text-white">0% Interest</span>
                 </div>
                 {/* KRYROS bag */}
-                <div className="absolute bottom-0 left-4 w-16 h-16 bg-primary/80 rounded-xl flex items-end justify-center pb-1 shadow-xl">
-                  <span className="text-[8px] font-black text-white">KRYROS</span>
+                <div className="w-20 h-20 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 self-end">
+                  <div className="w-full h-full bg-primary/80 flex flex-col items-center justify-end pb-2">
+                    <ShoppingBag className="w-8 h-8 text-white/80 mb-1" />
+                    <span className="text-[8px] font-black text-white">KRYROS</span>
+                  </div>
                 </div>
-                {/* Headphones */}
-                <div className="absolute bottom-0 left-16 w-12 h-12 rounded-xl overflow-hidden shadow-xl">
+                {/* Headphones image */}
+                <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-xl self-end flex-shrink-0">
                   <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=100&q=80" alt="headphones" className="w-full h-full object-cover" />
                 </div>
                 {/* Flexible plans badge */}
-                <div className="absolute bottom-0 right-0 flex items-center gap-1.5 bg-white/15 border border-white/20 rounded-xl px-2.5 py-1.5 backdrop-blur-sm">
+                <div className="absolute bottom-0 right-0 flex items-center gap-1.5 bg-white/15 border border-white/20 rounded-xl px-2.5 py-1.5 backdrop-blur-sm z-10">
                   <span className="text-[10px] font-bold text-white">Flexible Plans</span>
                 </div>
               </div>
@@ -309,14 +379,14 @@ export default function DashboardPage() {
           </div>
 
           {/* Wishlist + Saved Addresses */}
-          <div className="grid md:grid-cols-2 gap-4 mb-5">
+          <div className="grid lg:grid-cols-2 gap-4 mb-6">
 
             {/* Wishlist */}
             <div className="bg-card border border-border rounded-2xl p-5">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-bold text-foreground">Wishlist</h2>
                 <Link href="/shop">
-                  <span className="flex items-center gap-0.5 text-xs text-primary cursor-pointer hover:underline">
+                  <span className="flex items-center gap-0.5 text-xs text-primary cursor-pointer hover:underline font-medium">
                     View All <ChevronRight className="w-3 h-3" />
                   </span>
                 </Link>
@@ -345,7 +415,7 @@ export default function DashboardPage() {
             <div className="bg-card border border-border rounded-2xl p-5">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-bold text-foreground">Saved Addresses</h2>
-                <span className="flex items-center gap-0.5 text-xs text-primary cursor-pointer hover:underline">
+                <span className="flex items-center gap-0.5 text-xs text-primary cursor-pointer hover:underline font-medium">
                   Manage All <ChevronRight className="w-3 h-3" />
                 </span>
               </div>
@@ -361,16 +431,16 @@ export default function DashboardPage() {
                         <p key={i} className="text-[10px] text-muted-foreground leading-snug">{line}</p>
                       ))}
                     </div>
-                    <div className="flex items-center gap-1.5 flex-shrink-0">
+                    <div className="flex items-center gap-2 flex-shrink-0">
                       <button className="text-[10px] text-primary font-semibold hover:underline">Edit</button>
                       <MoreVertical className="w-3.5 h-3.5 text-muted-foreground cursor-pointer" />
                     </div>
                   </div>
                 ))}
               </div>
-              <button className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:bg-primary/5 px-3 py-2 rounded-xl transition-colors">
+              <button className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:bg-primary/5 px-3 py-2 rounded-xl transition-colors w-full">
                 <Plus className="w-3.5 h-3.5" />
-                Add New Address
+                + Add New Address
               </button>
             </div>
           </div>
@@ -381,9 +451,9 @@ export default function DashboardPage() {
             <div className="grid grid-cols-3 md:grid-cols-5 gap-3">
               {quickActions.map(({ icon: Icon, label, sub, href }) => (
                 <Link key={label} href={href}>
-                  <div className="flex flex-col items-center text-center gap-2 p-3 bg-card border border-border rounded-2xl cursor-pointer hover:border-primary/30 transition-all group">
-                    <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center">
-                      <Icon className="w-4.5 h-4.5 text-primary" style={{ width: 18, height: 18 }} />
+                  <div className="flex flex-col items-center text-center gap-2 p-3 bg-card border border-border rounded-2xl cursor-pointer hover:border-primary/30 hover:shadow-sm transition-all">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <Icon className="text-primary" style={{ width: 18, height: 18 }} />
                     </div>
                     <p className="text-[10px] font-bold text-foreground leading-tight">{label}</p>
                     <p className="text-[9px] text-muted-foreground leading-tight hidden md:block">{sub}</p>
