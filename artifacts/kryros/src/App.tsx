@@ -25,6 +25,10 @@ import PrivacyPage from "@/pages/PrivacyPage";
 import TermsPage from "@/pages/TermsPage";
 import RefundPage from "@/pages/RefundPage";
 import HelpPage from "@/pages/HelpPage";
+import FaqPage from "@/pages/FaqPage";
+import ReturnsPage from "@/pages/ReturnsPage";
+import ShippingPage from "@/pages/ShippingPage";
+import SecurityPage from "@/pages/SecurityPage";
 import NotFound from "@/pages/not-found";
 
 const queryClient = new QueryClient();
@@ -48,63 +52,29 @@ function Layout({ children, path }: { children: React.ReactNode; path: string })
 function Router() {
   return (
     <Switch>
-      <Route path="/">
-        {() => <Layout path="/"><HomePage /></Layout>}
-      </Route>
-      <Route path="/shop">
-        {() => <Layout path="/shop"><ShopPage /></Layout>}
-      </Route>
-      <Route path="/product/:id">
-        {() => <Layout path="/product"><ProductPage /></Layout>}
-      </Route>
-      <Route path="/cart">
-        {() => <Layout path="/cart"><CartPage /></Layout>}
-      </Route>
-      <Route path="/checkout">
-        {() => <Layout path="/checkout"><CheckoutPage /></Layout>}
-      </Route>
-      <Route path="/get-now">
-        {() => <Layout path="/get-now"><GetNowPage /></Layout>}
-      </Route>
-      <Route path="/track">
-        {() => <Layout path="/track"><TrackOrderPage /></Layout>}
-      </Route>
-      <Route path="/pickup-stations">
-        {() => <Layout path="/pickup-stations"><PickupStationsPage /></Layout>}
-      </Route>
-      <Route path="/wholesale">
-        {() => <Layout path="/wholesale"><WholesalePage /></Layout>}
-      </Route>
-      <Route path="/dashboard">
-        {() => <Layout path="/dashboard"><DashboardPage /></Layout>}
-      </Route>
-      <Route path="/login">
-        {() => <Layout path="/login"><LoginPage /></Layout>}
-      </Route>
-      <Route path="/register">
-        {() => <Layout path="/register"><RegisterPage /></Layout>}
-      </Route>
-      <Route path="/about">
-        {() => <Layout path="/about"><AboutPage /></Layout>}
-      </Route>
-      <Route path="/contact">
-        {() => <Layout path="/contact"><ContactPage /></Layout>}
-      </Route>
-      <Route path="/privacy">
-        {() => <Layout path="/privacy"><PrivacyPage /></Layout>}
-      </Route>
-      <Route path="/terms">
-        {() => <Layout path="/terms"><TermsPage /></Layout>}
-      </Route>
-      <Route path="/refund">
-        {() => <Layout path="/refund"><RefundPage /></Layout>}
-      </Route>
-      <Route path="/help">
-        {() => <Layout path="/help"><HelpPage /></Layout>}
-      </Route>
-      <Route>
-        {() => <Layout path="/404"><NotFound /></Layout>}
-      </Route>
+      <Route path="/">{() => <Layout path="/"><HomePage /></Layout>}</Route>
+      <Route path="/shop">{() => <Layout path="/shop"><ShopPage /></Layout>}</Route>
+      <Route path="/product/:id">{() => <Layout path="/product"><ProductPage /></Layout>}</Route>
+      <Route path="/cart">{() => <Layout path="/cart"><CartPage /></Layout>}</Route>
+      <Route path="/checkout">{() => <Layout path="/checkout"><CheckoutPage /></Layout>}</Route>
+      <Route path="/get-now">{() => <Layout path="/get-now"><GetNowPage /></Layout>}</Route>
+      <Route path="/track">{() => <Layout path="/track"><TrackOrderPage /></Layout>}</Route>
+      <Route path="/pickup-stations">{() => <Layout path="/pickup-stations"><PickupStationsPage /></Layout>}</Route>
+      <Route path="/wholesale">{() => <Layout path="/wholesale"><WholesalePage /></Layout>}</Route>
+      <Route path="/dashboard">{() => <Layout path="/dashboard"><DashboardPage /></Layout>}</Route>
+      <Route path="/login">{() => <Layout path="/login"><LoginPage /></Layout>}</Route>
+      <Route path="/register">{() => <Layout path="/register"><RegisterPage /></Layout>}</Route>
+      <Route path="/about">{() => <Layout path="/about"><AboutPage /></Layout>}</Route>
+      <Route path="/contact">{() => <Layout path="/contact"><ContactPage /></Layout>}</Route>
+      <Route path="/privacy">{() => <Layout path="/privacy"><PrivacyPage /></Layout>}</Route>
+      <Route path="/terms">{() => <Layout path="/terms"><TermsPage /></Layout>}</Route>
+      <Route path="/refund">{() => <Layout path="/refund"><RefundPage /></Layout>}</Route>
+      <Route path="/help">{() => <Layout path="/help"><HelpPage /></Layout>}</Route>
+      <Route path="/faq">{() => <Layout path="/faq"><FaqPage /></Layout>}</Route>
+      <Route path="/returns">{() => <Layout path="/returns"><ReturnsPage /></Layout>}</Route>
+      <Route path="/shipping">{() => <Layout path="/shipping"><ShippingPage /></Layout>}</Route>
+      <Route path="/security">{() => <Layout path="/security"><SecurityPage /></Layout>}</Route>
+      <Route>{() => <Layout path="/404"><NotFound /></Layout>}</Route>
     </Switch>
   );
 }

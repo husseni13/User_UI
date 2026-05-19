@@ -1,28 +1,33 @@
 export default function RefundPage() {
   const sections = [
-    { title: "Eligibility for Returns", content: "Items are eligible for return within 30 days of the delivery date. To be eligible, your item must be unused and in the same condition that you received it. It must also be in the original packaging." },
-    { title: "Non-Returnable Items", content: "Several types of goods are exempt from being returned, including perishable goods, intimate or sanitary goods, hazardous materials, flammable liquids or gases, downloadable software products, and gift cards." },
-    { title: "Return Process", content: "To initiate a return, contact our customer service team with your order number and reason for return. Our team will provide you with a Return Merchandise Authorization (RMA) number and instructions for shipping your item back." },
-    { title: "Refund Processing", content: "Once your return is received and inspected, we will send you an email to notify you that we have received your returned item. We will also notify you of the approval or rejection of your refund. If approved, your refund will be processed, and a credit will automatically be applied to your original method of payment within 7-10 business days." },
-    { title: "Late or Missing Refunds", content: "If you haven't received a refund yet, first check your bank account again. Then contact your credit card company, as it may take some time before your refund is officially posted. If you've done all of this and you still have not received your refund, please contact us." },
-    { title: "Exchanges", content: "We only replace items if they are defective or damaged. If you need to exchange it for the same item, contact our customer service team and we will arrange the exchange." },
-    { title: "Shipping Costs", content: "You will be responsible for paying for your own shipping costs for returning your item. Shipping costs are non-refundable. If you receive a refund, the cost of return shipping will be deducted from your refund." },
+    { title: "Eligibility", content: "Refunds are available for items returned within 30 days of delivery in original condition." },
+    { title: "Non-Refundable Items", content: "Certain items like gift cards, downloadable products, and clearance items are non-refundable." },
+    { title: "Refund Process", content: "Once we receive and inspect your return, we will notify you and process your refund within 5-7 business days." },
+    { title: "Refund Method", content: "Refunds will be issued to the original payment method used for the purchase." },
   ];
 
   return (
-    <div className="max-w-2xl mx-auto px-4 md:px-6 py-8 pb-24 md:pb-12">
-      <h1 className="text-2xl md:text-3xl font-black text-foreground mb-2">Refund Policy</h1>
-      <p className="text-sm text-muted-foreground mb-8">Last Updated: January 1, 2024</p>
-      <div className="space-y-6">
+    <div className="max-w-2xl mx-auto px-4 py-5 pb-28">
+      <h1 className="text-2xl font-black text-foreground mb-0.5">Refund Policy</h1>
+      <p className="text-xs text-muted-foreground mb-3">Last updated: May 20, 2024</p>
+      <p className="text-xs text-muted-foreground leading-relaxed mb-5">
+        We want you to be 100% satisfied with your purchase. If not, we're here to help.
+      </p>
+
+      <div className="space-y-3 mb-5">
         {sections.map((sec, i) => (
-          <div key={sec.title} className="bg-card border border-border rounded-2xl p-5">
-            <h2 className="font-bold text-foreground mb-2">
-              <span className="text-primary mr-2">{i + 1}.</span>
-              {sec.title}
+          <div key={sec.title} className="bg-card border border-border rounded-2xl p-4">
+            <h2 className="text-sm font-bold text-foreground mb-1.5">
+              <span className="text-primary mr-1">{i + 1}.</span>{sec.title}
             </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed">{sec.content}</p>
+            <p className="text-xs text-muted-foreground leading-relaxed">{sec.content}</p>
           </div>
         ))}
+      </div>
+
+      <div className="bg-primary/5 border border-primary/20 rounded-2xl p-4 text-center">
+        <p className="text-xs font-bold text-foreground mb-0.5">Need Help?</p>
+        <p className="text-xs text-muted-foreground">Contact our support team.</p>
       </div>
     </div>
   );

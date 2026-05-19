@@ -1,82 +1,76 @@
-import { ShieldCheck, Target, Heart, Globe } from "lucide-react";
+import { Target, Eye, Heart } from "lucide-react";
 
 export default function AboutPage() {
   return (
-    <div className="max-w-2xl mx-auto px-4 md:px-6 py-8 pb-24 md:pb-12">
-      {/* Hero */}
-      <div className="rounded-2xl overflow-hidden bg-card border border-border mb-8">
-        <div className="relative h-40 bg-gradient-to-br from-primary/10 to-primary/5 flex items-center justify-center">
-          <div className="text-center">
-            <span className="text-5xl font-black">KRY<span className="text-primary">ROS</span></span>
-          </div>
+    <div className="max-w-2xl mx-auto px-4 py-5 pb-28">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-5">
+        <div className="flex-1">
+          <h1 className="text-2xl font-black text-foreground">About Us</h1>
+          <p className="text-xs text-muted-foreground mt-0.5">Your Trusted Shopping Partner</p>
         </div>
-        <div className="p-6">
-          <div className="inline-block bg-primary/10 text-primary text-xs font-bold px-3 py-1 rounded-full border border-primary/20 mb-3">
-            Your Trusted Shopping Partner!
+        <div className="relative w-32 h-24 flex-shrink-0 ml-2">
+          <div className="absolute right-0 top-0 w-20 h-22 bg-primary rounded-2xl flex items-end justify-center pb-2 shadow-lg" style={{ height: 88 }}>
+            <span className="text-[10px] font-black text-white">KRYROS</span>
           </div>
-          <p className="text-muted-foreground text-sm leading-relaxed mb-3">
-            KRYROS is a global premium ecommerce marketplace connecting customers with the world's best brands. Founded with the mission to make technology and fashion accessible to everyone, we offer a curated selection of smartphones, laptops, fashion, shoes, electronics, audio, cameras, and accessories.
-          </p>
-          <p className="text-muted-foreground text-sm leading-relaxed">
-            With a presence in over 50 countries, KRYROS continues to grow as one of the most trusted online shopping destinations. We partner only with verified brands to ensure the quality and authenticity of every product.
-          </p>
+          <div className="absolute left-0 bottom-0 w-12 h-12 rounded-xl overflow-hidden bg-white shadow-md border border-border">
+            <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=100&q=80" alt="product" className="w-full h-full object-cover" />
+          </div>
+          <div className="absolute left-8 bottom-0 w-10 h-10 rounded-xl overflow-hidden bg-white shadow-md border border-border">
+            <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=100&q=80" alt="product" className="w-full h-full object-cover" />
+          </div>
         </div>
       </div>
 
-      {/* Mission/Vision/Values */}
-      <h2 className="text-xl font-bold text-foreground mb-4">Our Foundation</h2>
-      <div className="grid grid-cols-1 gap-4 mb-8">
+      {/* Description */}
+      <p className="text-xs text-muted-foreground leading-relaxed mb-5">
+        KRYROS is your one-stop destination for premium products, unbeatable deals, and exceptional service. We are committed to bringing you the best shopping experience with trust, convenience, and innovation at our core.
+      </p>
+
+      {/* Mission / Vision / Values */}
+      <div className="space-y-3 mb-5">
         {[
-          {
-            icon: Target,
-            title: "Our Mission",
-            text: "To provide a seamless, premium shopping experience for customers worldwide — connecting them with the world's best technology, fashion, and lifestyle products."
-          },
-          {
-            icon: Globe,
-            title: "Our Vision",
-            text: "To become the world's most trusted global ecommerce platform, making premium products accessible to everyone, everywhere."
-          },
-          {
-            icon: Heart,
-            title: "Our Values",
-            text: "Customer First. Integrity. Innovation. Quality. We believe in doing right by our customers, partners, and communities every single day."
-          },
+          { icon: Target, title: "Our Mission", text: "To deliver quality products and outstanding service that enhance your everyday life." },
+          { icon: Eye, title: "Our Vision", text: "To be the most trusted and innovative e-commerce platform globally." },
+          { icon: Heart, title: "Our Values", text: "Customer First • Integrity • Quality Dedication • Sustainability" },
         ].map(({ icon: Icon, title, text }) => (
-          <div key={title} className="bg-card border border-border rounded-2xl p-5 flex items-start gap-4">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
-              <Icon className="w-5 h-5 text-primary" />
+          <div key={title} className="flex items-start gap-3 p-4 bg-card border border-border rounded-2xl">
+            <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+              <Icon className="w-4.5 h-4.5 text-primary" style={{ width: 18, height: 18 }} />
             </div>
             <div>
-              <h3 className="font-bold text-foreground mb-1">{title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{text}</p>
+              <p className="text-sm font-bold text-foreground mb-0.5">{title}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed">{text}</p>
             </div>
           </div>
         ))}
       </div>
 
       {/* Stats */}
-      <div className="grid grid-cols-3 gap-3 mb-8">
-        {[
-          { value: "50+", label: "Countries" },
-          { value: "1M+", label: "Customers" },
-          { value: "10K+", label: "Products" },
-        ].map(({ value, label }) => (
+      <div className="grid grid-cols-3 gap-3 mb-5">
+        {[{ value: "50+", label: "Countries" }, { value: "1M+", label: "Customers" }, { value: "10K+", label: "Products" }].map(({ value, label }) => (
           <div key={label} className="bg-card border border-border rounded-2xl p-4 text-center">
-            <p className="text-2xl font-black text-primary">{value}</p>
-            <p className="text-xs text-muted-foreground font-medium">{label}</p>
+            <p className="text-xl font-black text-primary">{value}</p>
+            <p className="text-[10px] text-muted-foreground font-medium">{label}</p>
           </div>
         ))}
       </div>
 
       {/* Company info */}
-      <div className="bg-card border border-border rounded-2xl p-5">
-        <h3 className="font-bold text-foreground mb-3">Company Information</h3>
-        <div className="space-y-2 text-sm text-muted-foreground">
-          <div className="flex gap-2"><span className="font-medium text-foreground w-32">Registered Name</span><span>KRYROS MOBILE TECH LIMITED</span></div>
-          <div className="flex gap-2"><span className="font-medium text-foreground w-32">Address</span><span>West Sussex, Burgess Hill, United Kingdom</span></div>
-          <div className="flex gap-2"><span className="font-medium text-foreground w-32">Email</span><span>kryrosmobile@gmail.com</span></div>
-          <div className="flex gap-2"><span className="font-medium text-foreground w-32">Phone</span><span>+260 966 423 719</span></div>
+      <div className="bg-card border border-border rounded-2xl p-4">
+        <h3 className="text-sm font-bold text-foreground mb-3">Company Information</h3>
+        <div className="space-y-2">
+          {[
+            { label: "Registered", value: "KRYROS MOBILE TECH LIMITED" },
+            { label: "Address", value: "West Sussex, Burgess Hill, United Kingdom" },
+            { label: "Email", value: "support@kryros.com" },
+            { label: "Phone", value: "+1(800) 123-4567" },
+          ].map(({ label, value }) => (
+            <div key={label} className="flex gap-3 text-xs">
+              <span className="font-semibold text-foreground w-20 flex-shrink-0">{label}</span>
+              <span className="text-muted-foreground">{value}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
