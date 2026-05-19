@@ -369,7 +369,19 @@ export default function PayPage() {
               className="w-full py-4 bg-green-500 text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-green-600 transition-colors">
               <MessageCircle className="w-4 h-4" /> Continue on WhatsApp
             </button>
-          ) : method === "apple" || method === "google" ? null : (
+          ) : method === "apple" ? (
+            <button onClick={handlePay}
+              className="w-full py-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
+              style={{ background: "#000", color: "#fff" }}>
+               Pay ${TOTAL.toFixed(2)}
+            </button>
+          ) : method === "google" ? (
+            <button onClick={handlePay}
+              className="w-full py-4 rounded-2xl font-bold text-sm flex items-center justify-center gap-2 transition-opacity hover:opacity-90"
+              style={{ background: "#fff", color: "#000", border: "1px solid #ddd" }}>
+              <span className="font-black"><span className="text-blue-500">G</span><span className="text-red-500">o</span><span className="text-yellow-500">o</span><span className="text-blue-500">g</span><span className="text-green-500">l</span><span className="text-red-500">e</span></span> Pay ${TOTAL.toFixed(2)}
+            </button>
+          ) : (
             <button onClick={handlePay}
               className="w-full py-4 bg-primary text-white rounded-2xl font-bold text-sm flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors">
               <Lock className="w-4 h-4" /> Review &amp; Pay ${TOTAL.toFixed(2)}
