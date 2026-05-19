@@ -10,29 +10,33 @@ import type { Product } from "@/data/mockData";
 export default function HomePage() {
   return (
     <div>
+      {/* 1. Hero slider */}
       <HeroSection />
+
+      {/* 2. Trust badges */}
       <TrustBadges />
+
+      {/* 3. Category icons horizontal scroll */}
       <CategorySection />
+
+      {/* 4. Flash Sale banner + Flash Deals horizontal scroll */}
       <FlashSaleSection />
+
+      {/* 5. Promo banners: Get Now + Free Shipping */}
       <PromoBanners />
-      <ProductSection
-        title="Products"
-        tabs={[
-          { label: "Flash Deals", filter: (p: Product) => p.discount > 15 },
-          { label: "Trending", filter: (p: Product) => !!p.isTrending },
-          { label: "Best Sellers", filter: (p: Product) => !!p.isBestSeller },
-          { label: "New Arrivals", filter: (p: Product) => !!p.isNew },
-        ]}
-        limit={6}
-      />
+
+      {/* 6. Top Brands You Love */}
       <BrandsSection />
-      <ProductSection title="Recommended For You" limit={5} />
-      <PromoBanners variant="mega" />
+
+      {/* 7. Recommended For You — horizontal scroll */}
       <ProductSection
-        title="Recently Viewed"
-        filter={(p: Product) => p.rating >= 4.8}
-        limit={5}
+        title="Recommended For You"
+        viewAllHref="/shop"
+        filter={(p: Product) => p.rating >= 4.7}
+        limit={8}
+        scroll={true}
       />
+
     </div>
   );
 }

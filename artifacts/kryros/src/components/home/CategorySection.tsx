@@ -1,63 +1,48 @@
 import { Link } from "wouter";
-import { ArrowRight } from "lucide-react";
+import { LayoutGrid } from "lucide-react";
 import { categories } from "@/data/mockData";
 
-export default function CategorySection() {
-  const featured = categories.slice(0, 8);
+const displayCats = [
+  { id: "c1", name: "Smartphones", image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&q=80" },
+  { id: "c2", name: "Laptops", image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=200&q=80" },
+  { id: "c3", name: "Fashion", image: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=200&q=80" },
+  { id: "c4", name: "Shoes", image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&q=80" },
+  { id: "c5", name: "Audio", image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=200&q=80" },
+];
 
+export default function CategorySection() {
   return (
-    <section className="py-8 md:py-12">
-      <div className="max-w-7xl mx-auto px-4 md:px-6">
-        {/* Horizontal scroll pills */}
-        <div className="flex gap-3 overflow-x-auto pb-4 no-scrollbar">
-          {categories.map((cat) => (
+    <section className="py-4 md:py-6 bg-background">
+      <div className="px-3 md:px-6 max-w-7xl mx-auto">
+        <div className="flex items-center gap-3 md:gap-5 overflow-x-auto no-scrollbar pb-1">
+          {displayCats.map((cat) => (
             <Link key={cat.id} href={`/shop?cat=${cat.name}`}>
-              <div className="flex flex-col items-center gap-2 cursor-pointer group flex-shrink-0 w-20 md:w-24">
-                <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl overflow-hidden border-2 border-border group-hover:border-primary transition-all shadow-sm">
-                  <img src={cat.image} alt={cat.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" />
+              <div className="flex flex-col items-center gap-1.5 cursor-pointer group flex-shrink-0">
+                <div className="w-[58px] h-[58px] md:w-[72px] md:h-[72px] rounded-2xl overflow-hidden bg-muted border border-border group-hover:border-primary/50 transition-all">
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
                 </div>
-                <span className="text-[10px] md:text-xs font-medium text-center text-muted-foreground group-hover:text-primary transition-colors leading-tight">{cat.name}</span>
+                <span className="text-[10px] md:text-xs font-medium text-center text-foreground/70 group-hover:text-primary transition-colors leading-tight whitespace-nowrap">
+                  {cat.name}
+                </span>
               </div>
             </Link>
           ))}
-        </div>
 
-        {/* Category showcase cards */}
-        <div className="mt-8">
-          <h2 className="text-xl md:text-2xl font-bold text-foreground mb-5">Shop by Category</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
-            {featured.slice(0, 8).map((cat, i) => (
-              <Link key={cat.id} href={`/shop?cat=${cat.name}`}>
-                <div
-                  className={`relative rounded-2xl overflow-hidden cursor-pointer group shadow-md hover:shadow-xl transition-all duration-300 ${
-                    i === 0 ? "md:col-span-2 md:row-span-2" : ""
-                  }`}
-                  style={{ aspectRatio: i === 0 ? "auto" : "1/1" }}
-                >
-                  <div className={i === 0 ? "h-full min-h-[240px] md:min-h-[340px]" : "aspect-square"}>
-                    <img
-                      src={cat.image}
-                      alt={cat.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className={`font-bold text-white ${i === 0 ? "text-xl md:text-2xl" : "text-sm md:text-base"}`}>
-                        {cat.name}
-                      </h3>
-                      {i === 0 && (
-                        <p className="text-white/70 text-xs mt-1 mb-2">{cat.description}</p>
-                      )}
-                      <div className="flex items-center gap-1 text-primary text-xs font-semibold group-hover:gap-2 transition-all">
-                        Explore Now
-                        <ArrowRight className="w-3 h-3" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
+          {/* All Categories */}
+          <Link href="/shop">
+            <div className="flex flex-col items-center gap-1.5 cursor-pointer group flex-shrink-0">
+              <div className="w-[58px] h-[58px] md:w-[72px] md:h-[72px] rounded-2xl bg-muted border border-border group-hover:border-primary/50 transition-all flex items-center justify-center">
+                <LayoutGrid className="w-6 h-6 md:w-7 md:h-7 text-foreground/60 group-hover:text-primary transition-colors" />
+              </div>
+              <span className="text-[10px] md:text-xs font-medium text-center text-foreground/70 group-hover:text-primary transition-colors leading-tight whitespace-nowrap">
+                All Categories
+              </span>
+            </div>
+          </Link>
         </div>
       </div>
     </section>
