@@ -155,21 +155,25 @@ export default function DashboardPage() {
           </div>
 
           {/* 4 Stat cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
+          <div className="grid grid-cols-2 gap-3 mb-5">
             {[
-              { icon: ShoppingBag, label: "Total Orders", value: "24", sub: "View all orders →", href: "/track", iconBg: "bg-primary/10", iconColor: "text-primary" },
-              { icon: Heart, label: "Wishlist Items", value: "18", sub: "View wishlist →", href: "/shop", iconBg: "bg-pink-500/10", iconColor: "text-pink-500" },
-              { icon: Zap, label: "Get Now Credit", value: "$2,450.00", sub: "View plans →", href: "/get-now", iconBg: "bg-orange-500/10", iconColor: "text-orange-500" },
-              { icon: MapPin, label: "Saved Addresses", value: "4", sub: "Manage addresses →", href: "/dashboard", iconBg: "bg-violet-500/10", iconColor: "text-violet-500" },
+              { icon: ShoppingBag, label: "Total Orders", value: "24", sub: "View all orders →", href: "/track", iconBg: "#e6fafa", iconColor: "#0d9488" },
+              { icon: Heart, label: "Wishlist Items", value: "18", sub: "View wishlist →", href: "/shop", iconBg: "#fdf2f8", iconColor: "#ec4899" },
+              { icon: Zap, label: "Get Now Credit", value: "$2,450.00", sub: "View plans →", href: "/get-now", iconBg: "#fff7ed", iconColor: "#f97316" },
+              { icon: MapPin, label: "Saved Addresses", value: "4", sub: "Manage addresses →", href: "/dashboard", iconBg: "#f5f3ff", iconColor: "#8b5cf6" },
             ].map(({ icon: Icon, label, value, sub, href, iconBg, iconColor }) => (
               <Link key={label} href={href}>
-                <div className="bg-card border border-border rounded-2xl p-4 hover:border-primary/30 transition-all cursor-pointer group">
-                  <div className={`w-9 h-9 rounded-xl ${iconBg} flex items-center justify-center mb-3`}>
-                    <Icon className={`w-4.5 h-4.5 ${iconColor}`} style={{ width: 18, height: 18 }} />
+                <div className="bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary/20 transition-all cursor-pointer">
+                  {/* Large circle icon */}
+                  <div
+                    className="w-14 h-14 rounded-full flex items-center justify-center mb-4"
+                    style={{ background: iconBg }}
+                  >
+                    <Icon style={{ width: 26, height: 26, color: iconColor }} />
                   </div>
-                  <p className="text-xs text-muted-foreground mb-0.5">{label}</p>
-                  <p className="text-lg font-black text-foreground mb-1">{value}</p>
-                  <p className="text-[11px] text-primary">{sub}</p>
+                  <p className="text-xs text-muted-foreground mb-1">{label}</p>
+                  <p className="text-2xl font-black text-foreground mb-2 leading-tight">{value}</p>
+                  <p className="text-xs font-semibold" style={{ color: "#0d9488" }}>{sub}</p>
                 </div>
               </Link>
             ))}
