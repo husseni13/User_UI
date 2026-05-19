@@ -82,8 +82,8 @@ export default function CategoryPromoBanners() {
               style={{
                 background: b.gradient,
                 borderRadius: 14,
-                width: "min(82vw, 320px)",
-                height: 138,
+                width: "min(86vw, 360px)",
+                height: 165,
                 scrollSnapAlign: "start",
               }}
             >
