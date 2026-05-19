@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import {
-  Heart, ShoppingCart, Star, ChevronRight, Zap,
-  Smartphone, Laptop, Headphones, Watch, Plug, Shirt, LayoutGrid,
+  Heart, ShoppingCart, Star, ChevronRight, Zap, Headphones,
 } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/cartStore";
@@ -11,13 +10,34 @@ import { products } from "@/data/mockData";
 import type { Product } from "@/data/mockData";
 
 const CATEGORIES = [
-  { id: "All", label: "All", Icon: LayoutGrid },
-  { id: "Smartphones", label: "Phones", Icon: Smartphone },
-  { id: "Laptops", label: "Laptops", Icon: Laptop },
-  { id: "Audio", label: "Audio", Icon: Headphones },
-  { id: "Smart Watches", label: "Wearables", Icon: Watch },
-  { id: "Accessories", label: "Accessories", Icon: Plug },
-  { id: "Fashion", label: "Fashion", Icon: Shirt },
+  {
+    id: "All", label: "Discounted", count: 12,
+    img: "https://images.unsplash.com/photo-1550009158-9ebf69173e03?w=300&q=80",
+  },
+  {
+    id: "Audio", label: "Sound Devices", count: 87,
+    img: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=300&q=80",
+  },
+  {
+    id: "Cameras", label: "Cameras", count: 64,
+    img: "https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=300&q=80",
+  },
+  {
+    id: "Smartphones", label: "Mobile", count: 245,
+    img: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=300&q=80",
+  },
+  {
+    id: "Laptops", label: "Laptops", count: 128,
+    img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=300&q=80",
+  },
+  {
+    id: "Smart Watches", label: "Wearables", count: 71,
+    img: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=300&q=80",
+  },
+  {
+    id: "Fashion", label: "Fashion", count: 312,
+    img: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=300&q=80",
+  },
 ];
 
 const SHOP_BRANDS = [
@@ -226,41 +246,51 @@ export default function ShopPage() {
 
   return (
     <div className="pb-24 md:pb-10">
-      {/* Category icons */}
-      <div className="flex gap-4 overflow-x-auto no-scrollbar px-4 py-3">
-        {CATEGORIES.map(({ id, label, Icon }) => {
+      {/* Category cards */}
+      <div className="flex gap-3 overflow-x-auto no-scrollbar px-4 pt-4 pb-4">
+        {CATEGORIES.map(({ id, label, count, img }) => {
           const active = selectedCat === id;
           return (
             <button
               key={id}
               onClick={() => setSelectedCat(id)}
-              className="flex-shrink-0 flex flex-col items-center gap-1.5"
+              className={`flex-shrink-0 relative w-36 h-36 rounded-2xl overflow-hidden transition-all ${
+                active ? "ring-2 ring-teal-500 ring-offset-2" : ""
+              }`}
             >
+              <img
+                src={img}
+                alt={label}
+                className="w-full h-full object-cover"
+              />
               <div
-                className={`w-14 h-14 rounded-full flex items-center justify-center border-2 transition-all ${
-                  active
-                    ? "border-teal-600 bg-teal-50 dark:bg-teal-900/20"
-                    : "border-border bg-card"
-                }`}
-              >
-                <Icon
-                  className={`w-6 h-6 ${active ? "text-teal-600" : "text-muted-foreground"}`}
-                />
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(to top, rgba(10,20,30,0.92) 0%, rgba(10,20,30,0.55) 55%, rgba(10,20,30,0.15) 100%)",
+                }}
+              />
+              <div className="absolute bottom-0 left-0 right-0 p-2.5">
+                <p className="text-white font-black text-xs uppercase tracking-wide leading-tight mb-1">
+                  {label}
+                </p>
+                <div className="flex items-center gap-1.5">
+                  <div className="w-5 h-0.5 bg-teal-400 rounded-full" />
+                  <span className="text-white/70 text-[10px] font-medium">
+                    {count} ITEMS
+                  </span>
+                </div>
               </div>
-              <span
-                className={`text-[11px] font-medium text-center ${
-                  active ? "text-teal-600 font-semibold" : "text-muted-foreground"
-                }`}
-              >
-                {label}
-              </span>
             </button>
           );
         })}
       </div>
 
+      {/* Divider */}
+      <div className="mx-4 mb-4 border-t border-border" />
+
       {/* Shop by Brand */}
-      <div className="px-4 mb-4">
+      <div className="px-4 mb-5">
         <p className="text-sm font-bold text-foreground mb-2.5">Shop by Brand</p>
         <div className="flex gap-2 overflow-x-auto no-scrollbar">
           {SHOP_BRANDS.map(({ id, label }) => {
