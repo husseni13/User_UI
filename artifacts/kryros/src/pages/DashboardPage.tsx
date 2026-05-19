@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import {
-  LayoutDashboard, Package, Heart, MapPin, CreditCard, Zap, ShoppingBag,
+  LayoutDashboard, Package, Heart, MapPin, CreditCard, Zap,
   MessageCircle, Bell, RefreshCcw, Star, Settings, ChevronRight, Check,
-  Truck, MoreVertical, Plus, Globe, Sun, DollarSign, X, Search, ChevronDown, Menu,
+  Truck, MoreVertical, Plus, Globe, Sun, DollarSign, X, Search,
+  ChevronDown, Menu, ShoppingBag, Info, Tag, AlertCircle,
 } from "lucide-react";
 
 const sidebarItems = [
@@ -13,10 +14,8 @@ const sidebarItems = [
   { icon: MapPin, label: "Addresses", href: "/dashboard" },
   { icon: CreditCard, label: "Payment Methods", href: "/dashboard" },
   { icon: Zap, label: "Get Now Plans", href: "/get-now" },
-  { icon: ShoppingBag, label: "Wholesale Requests", href: "/wholesale" },
   { icon: MapPin, label: "Pickup Stations", href: "/pickup-stations" },
   { icon: MessageCircle, label: "Messages", href: "/dashboard" },
-  { icon: Bell, label: "Notifications", href: "/dashboard", badge: 3 },
   { icon: RefreshCcw, label: "Returns & Refunds", href: "/returns" },
   { icon: Star, label: "My Reviews", href: "/dashboard" },
   { icon: Settings, label: "Settings", href: "/dashboard" },
@@ -28,6 +27,14 @@ const footerLinks = [
   { label: "Privacy Policy", href: "/privacy" },
   { label: "Terms & Conditions", href: "/terms" },
   { label: "Refund Policy", href: "/refund" },
+];
+
+const notifications = [
+  { id: "n1", icon: Truck, color: "text-primary bg-primary/10", title: "Order Shipped", body: "Your iPhone 15 Pro Max has been shipped.", time: "2 min ago" },
+  { id: "n2", icon: Tag, color: "text-orange-500 bg-orange-500/10", title: "Flash Sale Live", body: "Up to 40% off on selected items. Grab yours now!", time: "1 hr ago" },
+  { id: "n3", icon: Check, color: "text-green-500 bg-green-500/10", title: "Payment Confirmed", body: "Your payment of $1,099.00 was successful.", time: "3 hrs ago" },
+  { id: "n4", icon: Info, color: "text-blue-500 bg-blue-500/10", title: "Profile Updated", body: "Your address was updated successfully.", time: "Yesterday" },
+  { id: "n5", icon: AlertCircle, color: "text-red-500 bg-red-500/10", title: "Return Approved", body: "Your return request #KRY-001 has been approved.", time: "2 days ago" },
 ];
 
 const recentOrders = [
@@ -72,10 +79,10 @@ const quickActions = [
 
 export default function DashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full bg-background">
-      {/* Logo row */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-border">
         <Link href="/">
           <span className="text-lg font-black text-foreground cursor-pointer">
@@ -90,30 +97,21 @@ export default function DashboardPage() {
         </button>
       </div>
 
-      {/* Nav items */}
       <nav className="flex-1 p-2 overflow-y-auto">
-        {sidebarItems.map(({ icon: Icon, label, href, active, badge }) => (
+        {sidebarItems.map(({ icon: Icon, label, href, active }) => (
           <Link key={label} href={href}>
             <div
               onClick={() => setSidebarOpen(false)}
-              className={`flex items-center justify-between px-3 py-2.5 rounded-xl cursor-pointer transition-all mb-0.5
+              className={`flex items-center gap-2.5 px-3 py-2.5 rounded-xl cursor-pointer transition-all mb-0.5
                 ${active ? "bg-primary/10 text-primary" : "hover:bg-muted text-foreground"}`}
             >
-              <div className="flex items-center gap-2.5">
-                <Icon className={`w-4 h-4 ${active ? "text-primary" : "text-muted-foreground"}`} />
-                <span className={`text-sm font-medium ${active ? "font-semibold text-primary" : ""}`}>{label}</span>
-              </div>
-              {badge && (
-                <span className="text-[9px] font-black w-5 h-5 rounded-full bg-primary text-white flex items-center justify-center">
-                  {badge}
-                </span>
-              )}
+              <Icon className={`w-4 h-4 flex-shrink-0 ${active ? "text-primary" : "text-muted-foreground"}`} />
+              <span className={`text-sm font-medium ${active ? "font-semibold text-primary" : ""}`}>{label}</span>
             </div>
           </Link>
         ))}
       </nav>
 
-      {/* Bottom settings */}
       <div className="border-t border-border p-3 space-y-0.5">
         {[
           { icon: DollarSign, label: "USD - US Dollar" },
@@ -142,7 +140,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-background flex">
-      {/* Desktop sidebar — fixed, always visible */}
+      {/* Desktop sidebar */}
       <aside className="hidden lg:flex flex-col w-56 flex-shrink-0 border-r border-border sticky top-0 h-screen overflow-hidden">
         <SidebarContent />
       </aside>
@@ -157,7 +155,7 @@ export default function DashboardPage() {
         </div>
       )}
 
-      {/* Main content */}
+      {/* Main */}
       <main className="flex-1 min-w-0 overflow-y-auto">
 
         {/* Top bar */}
@@ -169,22 +167,71 @@ export default function DashboardPage() {
             <Menu className="w-5 h-5 text-foreground" />
           </button>
           <div className="hidden lg:block" />
-          <div className="flex items-center gap-4">
+
+          <div className="flex items-center gap-3">
+            {/* Search */}
             <button className="w-8 h-8 flex items-center justify-center rounded-xl hover:bg-muted transition-colors">
-              <Search className="w-4.5 h-4.5 text-foreground" style={{ width: 18, height: 18 }} />
+              <Search style={{ width: 18, height: 18 }} className="text-foreground" />
             </button>
+
+            {/* Wishlist */}
             <Link href="/shop">
               <button className="relative w-8 h-8 flex items-center justify-center rounded-xl hover:bg-muted transition-colors">
-                <Heart className="text-foreground" style={{ width: 18, height: 18 }} />
+                <Heart style={{ width: 18, height: 18 }} className="text-foreground" />
                 <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-white text-[8px] font-black flex items-center justify-center">2</span>
               </button>
             </Link>
+
+            {/* Cart */}
             <Link href="/cart">
               <button className="relative w-8 h-8 flex items-center justify-center rounded-xl hover:bg-muted transition-colors">
-                <ShoppingBag className="text-foreground" style={{ width: 18, height: 18 }} />
+                <ShoppingBag style={{ width: 18, height: 18 }} className="text-foreground" />
                 <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-white text-[8px] font-black flex items-center justify-center">2</span>
               </button>
             </Link>
+
+            {/* Notifications */}
+            <div className="relative">
+              <button
+                onClick={() => setNotifOpen((o) => !o)}
+                className="relative w-8 h-8 flex items-center justify-center rounded-xl hover:bg-muted transition-colors"
+              >
+                <Bell style={{ width: 18, height: 18 }} className="text-foreground" />
+                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full bg-primary text-white text-[8px] font-black flex items-center justify-center">3</span>
+              </button>
+
+              {/* Notification dropdown */}
+              {notifOpen && (
+                <>
+                  <div className="fixed inset-0 z-30" onClick={() => setNotifOpen(false)} />
+                  <div className="absolute right-0 top-10 z-40 w-80 bg-card border border-border rounded-2xl shadow-2xl overflow-hidden">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+                      <h3 className="text-sm font-bold text-foreground">Notifications</h3>
+                      <button className="text-[10px] text-primary font-semibold hover:underline">Mark all read</button>
+                    </div>
+                    <div className="max-h-80 overflow-y-auto divide-y divide-border">
+                      {notifications.map(({ id, icon: Icon, color, title, body, time }) => (
+                        <div key={id} className="flex items-start gap-3 px-4 py-3 hover:bg-muted/50 transition-colors cursor-pointer">
+                          <div className={`w-8 h-8 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 ${color}`}>
+                            <Icon className="w-3.5 h-3.5" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs font-semibold text-foreground">{title}</p>
+                            <p className="text-[10px] text-muted-foreground leading-snug mt-0.5">{body}</p>
+                          </div>
+                          <span className="text-[9px] text-muted-foreground flex-shrink-0 mt-0.5 whitespace-nowrap">{time}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className="px-4 py-2.5 border-t border-border">
+                      <button className="w-full text-xs text-primary font-semibold text-center hover:underline">View all notifications</button>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+
+            {/* Avatar */}
             <div className="flex items-center gap-1.5 cursor-pointer">
               <div className="w-8 h-8 rounded-full overflow-hidden bg-muted flex-shrink-0 ring-2 ring-primary/30">
                 <img src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=60&q=80" alt="Alex" className="w-full h-full object-cover" />
@@ -275,29 +322,21 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Tracking timeline */}
               <div className="flex items-start mb-5 px-1">
                 {trackingTimeline.map((step, i) => (
                   <div key={step.label} className="flex items-start flex-1">
                     <div className="flex flex-col items-center flex-1">
                       <div className="flex items-center w-full">
-                        {i > 0 && (
-                          <div className={`flex-1 h-0.5 -mt-0 ${trackingTimeline[i - 1].done ? "bg-primary" : "bg-border"}`} />
-                        )}
+                        {i > 0 && <div className={`flex-1 h-0.5 ${trackingTimeline[i - 1].done ? "bg-primary" : "bg-border"}`} />}
                         <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 z-10 border-2
-                          ${step.active
-                            ? "bg-primary border-primary ring-4 ring-primary/20"
-                            : step.done
-                            ? "bg-primary border-primary"
-                            : "bg-background border-border"}`}
-                        >
+                          ${step.active ? "bg-primary border-primary ring-4 ring-primary/20"
+                            : step.done ? "bg-primary border-primary"
+                            : "bg-background border-border"}`}>
                           {step.active && <Truck className="w-3.5 h-3.5 text-white" />}
                           {step.done && !step.active && <Check className="w-3.5 h-3.5 text-white" />}
                           {!step.done && <MapPin className="w-3 h-3 text-muted-foreground" />}
                         </div>
-                        {i < trackingTimeline.length - 1 && (
-                          <div className={`flex-1 h-0.5 ${step.done && !step.active ? "bg-primary" : "bg-border"}`} />
-                        )}
+                        {i < trackingTimeline.length - 1 && <div className={`flex-1 h-0.5 ${step.done && !step.active ? "bg-primary" : "bg-border"}`} />}
                       </div>
                       <p className={`text-[9px] text-center mt-1.5 font-semibold leading-tight px-0.5
                         ${step.active ? "text-primary" : step.done ? "text-foreground" : "text-muted-foreground"}`}>
@@ -309,8 +348,7 @@ export default function DashboardPage() {
                 ))}
               </div>
 
-              {/* Estimated delivery banner */}
-              <div className="bg-muted/40 rounded-2xl p-4 flex items-center justify-between overflow-hidden">
+              <div className="bg-muted/40 rounded-2xl p-4 flex items-center justify-between">
                 <div>
                   <p className="text-[10px] text-muted-foreground mb-0.5">Estimated Delivery</p>
                   <p className="text-lg font-black text-primary">May 20, 2024</p>
@@ -350,27 +388,22 @@ export default function DashboardPage() {
                 </Link>
               </div>
               <div className="flex-shrink-0 relative hidden md:flex items-end gap-2" style={{ height: 120 }}>
-                {/* Instant Approval badge */}
                 <div className="absolute -top-2 left-0 flex items-center gap-1.5 bg-white/15 border border-white/20 rounded-xl px-2.5 py-1.5 backdrop-blur-sm z-10">
                   <Check className="w-3 h-3 text-primary" />
                   <span className="text-[10px] font-bold text-white">Instant Approval</span>
                 </div>
-                {/* 0% Interest badge */}
                 <div className="absolute -top-2 right-0 flex items-center gap-1.5 bg-white/15 border border-white/20 rounded-xl px-2.5 py-1.5 backdrop-blur-sm z-10">
                   <span className="text-[10px] font-bold text-white">0% Interest</span>
                 </div>
-                {/* KRYROS bag */}
                 <div className="w-20 h-20 rounded-2xl overflow-hidden shadow-2xl flex-shrink-0 self-end">
                   <div className="w-full h-full bg-primary/80 flex flex-col items-center justify-end pb-2">
                     <ShoppingBag className="w-8 h-8 text-white/80 mb-1" />
                     <span className="text-[8px] font-black text-white">KRYROS</span>
                   </div>
                 </div>
-                {/* Headphones image */}
                 <div className="w-16 h-16 rounded-2xl overflow-hidden shadow-xl self-end flex-shrink-0">
                   <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=100&q=80" alt="headphones" className="w-full h-full object-cover" />
                 </div>
-                {/* Flexible plans badge */}
                 <div className="absolute bottom-0 right-0 flex items-center gap-1.5 bg-white/15 border border-white/20 rounded-xl px-2.5 py-1.5 backdrop-blur-sm z-10">
                   <span className="text-[10px] font-bold text-white">Flexible Plans</span>
                 </div>
@@ -380,8 +413,6 @@ export default function DashboardPage() {
 
           {/* Wishlist + Saved Addresses */}
           <div className="grid lg:grid-cols-2 gap-4 mb-6">
-
-            {/* Wishlist */}
             <div className="bg-card border border-border rounded-2xl p-5">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-bold text-foreground">Wishlist</h2>
@@ -411,7 +442,6 @@ export default function DashboardPage() {
               </Link>
             </div>
 
-            {/* Saved Addresses */}
             <div className="bg-card border border-border rounded-2xl p-5">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-sm font-bold text-foreground">Saved Addresses</h2>
@@ -438,7 +468,7 @@ export default function DashboardPage() {
                   </div>
                 ))}
               </div>
-              <button className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:bg-primary/5 px-3 py-2 rounded-xl transition-colors w-full">
+              <button className="flex items-center gap-1.5 text-primary text-xs font-semibold hover:bg-primary/5 px-3 py-2 rounded-xl transition-colors">
                 <Plus className="w-3.5 h-3.5" />
                 + Add New Address
               </button>
