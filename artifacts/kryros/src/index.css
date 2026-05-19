@@ -177,6 +177,12 @@
   background: hsl(var(--muted-foreground) / 0.5);
 }
 
+/* Prevent horizontal overflow/shake on mobile */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
