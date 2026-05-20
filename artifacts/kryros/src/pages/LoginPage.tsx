@@ -20,7 +20,7 @@ export default function LoginPage() {
         <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-xl">
 
           {/* Top section */}
-          <div className="relative bg-white px-6 pt-6 pb-4 overflow-hidden">
+          <div className="relative bg-card px-6 pt-6 pb-4 overflow-hidden border-b border-border">
             <div className="flex items-start justify-between">
               <div>
                 <Link href="/">
@@ -34,23 +34,23 @@ export default function LoginPage() {
                 <div className="absolute right-0 top-0 w-16 h-20 rounded-xl overflow-hidden bg-primary shadow-md flex items-end justify-center pb-1">
                   <span className="text-[10px] font-black text-white">KRYROS</span>
                 </div>
-                <div className="absolute left-0 bottom-0 w-11 h-11 rounded-xl overflow-hidden bg-white shadow-md border border-gray-100">
+                <div className="absolute left-0 bottom-0 w-11 h-11 rounded-xl overflow-hidden bg-card shadow-md border border-border">
                   <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=100&q=80" alt="headphones" className="w-full h-full object-cover" />
                 </div>
-                <div className="absolute right-5 bottom-0 w-9 h-9 rounded-xl overflow-hidden bg-white shadow-md border border-gray-100">
+                <div className="absolute right-5 bottom-0 w-9 h-9 rounded-xl overflow-hidden bg-card shadow-md border border-border">
                   <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=100&q=80" alt="watch" className="w-full h-full object-cover" />
                 </div>
               </div>
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4 bg-white">
+          <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4 bg-card">
             <div>
               <label className="block text-xs font-semibold text-foreground mb-1.5">Email Address</label>
               <div className="relative">
                 <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email"
-                  className="w-full pl-10 pr-4 py-3 bg-white border border-border rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-muted-foreground/50"
+                  className="w-full pl-10 pr-4 py-3 bg-background border border-border rounded-xl text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-muted-foreground/50"
                   data-testid="input-email" />
               </div>
             </div>
@@ -63,7 +63,7 @@ export default function LoginPage() {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input type={showPw ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Enter your password"
-                  className="w-full pl-10 pr-10 py-3 bg-white border border-border rounded-xl text-sm outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-muted-foreground/50"
+                  className="w-full pl-10 pr-10 py-3 bg-background border border-border rounded-xl text-sm text-foreground outline-none focus:ring-2 focus:ring-primary/30 placeholder:text-muted-foreground/50"
                   data-testid="input-password" />
                 <button type="button" onClick={() => setShowPw(!showPw)} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground">
                   {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -82,7 +82,7 @@ export default function LoginPage() {
             </div>
 
             <button type="submit" data-testid="btn-login"
-              className="w-full py-3.5 bg-foreground text-background rounded-2xl font-bold text-sm hover:opacity-90 transition-opacity active:scale-95">
+              className="w-full py-3.5 bg-primary text-white rounded-2xl font-bold text-sm hover:opacity-90 transition-opacity active:scale-95">
               Login
             </button>
 
@@ -94,11 +94,11 @@ export default function LoginPage() {
 
             <div className="grid grid-cols-3 gap-2">
               {[
-                { label: "Google", icon: "🇬", color: "text-red-500" },
-                { label: "Apple", icon: "", color: "text-foreground" },
-                { label: "Facebook", icon: "f", color: "text-blue-600" },
+                { label: "Google", color: "text-red-500" },
+                { label: "Apple", color: "text-foreground" },
+                { label: "Facebook", color: "text-blue-500" },
               ].map(({ label, color }) => (
-                <button key={label} type="button" className="flex items-center justify-center gap-1.5 py-2.5 border border-border rounded-xl text-xs font-semibold hover:bg-muted transition-colors">
+                <button key={label} type="button" className="flex items-center justify-center gap-1.5 py-2.5 bg-background border border-border rounded-xl text-xs font-semibold text-foreground hover:bg-muted transition-colors">
                   <span className={`font-black text-sm ${color}`}>{label === "Google" ? "G" : label === "Apple" ? "" : "f"}</span>
                   <span>{label}</span>
                 </button>
@@ -114,7 +114,7 @@ export default function LoginPage() {
           </form>
 
           {/* Trust badges */}
-          <div className="flex items-center justify-around px-6 py-4 border-t border-border bg-white">
+          <div className="flex items-center justify-around px-6 py-4 border-t border-border bg-muted/30">
             {[
               { icon: ShieldCheck, title: "Secure & Safe", sub: "Your data is protected" },
               { icon: Zap, title: "Fast & Easy", sub: "Quick access to your account" },

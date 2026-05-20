@@ -8,7 +8,6 @@ import CategoryPromoBanners from "@/components/home/CategoryPromoBanners";
 import FeaturedProductsSection from "@/components/home/FeaturedProductsSection";
 import ProductSection from "@/components/home/ProductSection";
 import BrandsSection from "@/components/home/BrandsSection";
-import BottomCTA from "@/components/home/BottomCTA";
 import type { Product } from "@/data/mockData";
 
 export default function HomePage() {
@@ -41,7 +40,7 @@ export default function HomePage() {
       {/* 9. Category promotional banners */}
       <CategoryPromoBanners />
 
-      {/* 8. Recommended For You — horizontal scroll */}
+      {/* 10. Recommended For You — horizontal scroll */}
       <ProductSection
         title="Recommended For You"
         viewAllHref="/shop"
@@ -49,10 +48,6 @@ export default function HomePage() {
         limit={8}
         scroll={true}
       />
-
-      {/* 9. Bottom CTA — perks strip + shop banner, sits just above footer */}
-      <BottomCTA />
-
     </div>
   );
 }

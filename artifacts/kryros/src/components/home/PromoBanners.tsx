@@ -1,62 +1,78 @@
 import { Link } from "wouter";
 import { ArrowRight } from "lucide-react";
 
+const banners = [
+  {
+    id: "getnow",
+    tag: "GET NOW",
+    title: "Smart Payment Plan",
+    subtitle: "Buy now, pay in easy monthly instalments.",
+    cta: "Learn More",
+    href: "/get-now",
+    image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=800&q=80",
+    overlayFrom: "rgba(5,30,22,0.88)",
+    overlayTo: "rgba(5,30,22,0.25)",
+  },
+  {
+    id: "shipping",
+    tag: "FREE SHIPPING",
+    title: "Free Shipping Worldwide",
+    subtitle: "On all orders over $100.",
+    cta: "Shop Now",
+    href: "/shop",
+    image: "https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=800&q=80",
+    overlayFrom: "rgba(5,20,40,0.88)",
+    overlayTo: "rgba(5,20,40,0.25)",
+  },
+];
+
 export default function PromoBanners() {
   return (
     <section className="py-4 md:py-6">
       <div className="px-3 md:px-6 max-w-7xl mx-auto">
         <div className="grid grid-cols-2 gap-3 md:gap-4">
+          {banners.map((b) => (
+            <div
+              key={b.id}
+              className="relative rounded-2xl overflow-hidden"
+              style={{ height: 150 }}
+            >
+              {/* Full background image */}
+              <img
+                src={b.image}
+                alt={b.title}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
 
-          {/* Get Now Smart Payment Plan */}
-          <div
-            className="relative rounded-2xl overflow-hidden flex flex-col justify-between p-4 md:p-5"
-            style={{
-              background: "linear-gradient(135deg, #0d1f3c 0%, #122040 100%)",
-              height: 140,
-            }}
-          >
-            <div>
-              <p className="text-primary text-[9px] font-bold uppercase tracking-widest mb-1">Get Now</p>
-              <h3 className="text-white font-black text-[13px] md:text-base leading-tight">Smart Payment Plan</h3>
-              <p className="text-white/50 text-[9px] mt-1 leading-snug line-clamp-2">
-                Buy now, pay in easy monthly instalments.
-              </p>
-            </div>
-            <Link href="/get-now">
-              <div className="flex items-center gap-1 text-primary text-[10px] font-semibold cursor-pointer hover:gap-2 transition-all whitespace-nowrap">
-                Learn More <ArrowRight className="w-3 h-3" />
+              {/* Gradient overlay */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background: `linear-gradient(to right, ${b.overlayFrom} 0%, ${b.overlayTo} 70%, transparent 100%)`,
+                }}
+              />
+
+              {/* Text content overlaid */}
+              <div className="relative z-10 h-full flex flex-col justify-between p-4">
+                <div>
+                  <p className="text-[9px] font-black uppercase tracking-widest mb-1" style={{ color: "#1FA89A" }}>
+                    {b.tag}
+                  </p>
+                  <h3 className="text-white font-black text-[13px] md:text-base leading-tight">
+                    {b.title}
+                  </h3>
+                  <p className="text-white/60 text-[9px] mt-1 leading-snug line-clamp-2">
+                    {b.subtitle}
+                  </p>
+                </div>
+                <Link href={b.href}>
+                  <div className="flex items-center gap-1 text-[10px] font-semibold cursor-pointer hover:gap-2 transition-all whitespace-nowrap" style={{ color: "#1FA89A" }}>
+                    {b.cta} <ArrowRight className="w-3 h-3" />
+                  </div>
+                </Link>
               </div>
-            </Link>
-            {/* Decorative phone image */}
-            <img
-              src="https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=120&q=80"
-              alt="Phone"
-              className="absolute bottom-0 right-2 w-12 h-[90px] object-cover object-top opacity-75 rounded-t-xl"
-            />
-          </div>
-
-          {/* Free Shipping Worldwide */}
-          <div
-            className="relative rounded-2xl overflow-hidden flex flex-col justify-between p-4 md:p-5 bg-card border border-border"
-            style={{ height: 140 }}
-          >
-            <div>
-              <p className="text-primary text-[9px] font-bold uppercase tracking-widest mb-1">Free Shipping</p>
-              <h3 className="text-foreground font-black text-[13px] md:text-base leading-tight">Free Shipping Worldwide</h3>
-              <p className="text-muted-foreground text-[9px] mt-1 leading-snug">
-                On all orders over $100
-              </p>
             </div>
-            <Link href="/shop">
-              <div className="flex items-center gap-1 text-primary text-[10px] font-semibold cursor-pointer hover:gap-2 transition-all whitespace-nowrap">
-                Shop Now <ArrowRight className="w-3 h-3" />
-              </div>
-            </Link>
-            <div className="absolute bottom-3 right-3">
-              <span className="text-2xl font-black text-muted-foreground/10 select-none">KRYROS</span>
-            </div>
-          </div>
-
+          ))}
         </div>
       </div>
     </section>

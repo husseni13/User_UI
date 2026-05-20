@@ -1,10 +1,30 @@
 import { Link, useLocation } from "wouter";
 import { Home, Grid2x2, CreditCard, PackageSearch, ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
+import { useEffect, useRef, useState } from "react";
 
 export default function MobileBottomNav() {
   const [location] = useLocation();
   const cartCount = useCartStore((s) => s.items.reduce((acc, i) => acc + i.quantity, 0));
+  const [visible, setVisible] = useState(true);
+  const lastScrollY = useRef(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      if (currentY < 60) {
+        setVisible(true);
+      } else if (currentY > lastScrollY.current + 4) {
+        setVisible(false);
+      } else if (currentY < lastScrollY.current - 4) {
+        setVisible(true);
+      }
+      lastScrollY.current = currentY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const navItems = [
     { label: "Home", icon: Home, href: "/" },
@@ -16,8 +36,11 @@ export default function MobileBottomNav() {
 
   return (
     <nav
-      className="fixed bottom-0 left-0 right-0 z-50 md:hidden"
-      style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
+      className="fixed bottom-0 left-0 right-0 z-50 md:hidden transition-transform duration-300"
+      style={{
+        paddingBottom: "env(safe-area-inset-bottom)",
+        transform: visible ? "translateY(0)" : "translateY(110%)",
+      }}
     >
       <div className="mx-3 mb-3 bg-card/95 backdrop-blur-xl border border-border/50 rounded-2xl shadow-2xl">
         <div className="flex items-center justify-around py-2">
