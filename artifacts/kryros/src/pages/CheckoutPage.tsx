@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 import { Link } from "wouter";
 import {
   Check, CreditCard, Smartphone, Building2,
-  Lock, ChevronRight, Truck, Zap, Clock, Download,
+  Lock, ChevronLeft, ChevronRight, Truck, Zap, Clock, Download,
   User, Mail, Phone, MapPin, Home, Globe, X, Upload, ChevronDown,
 } from "lucide-react";
 
@@ -188,13 +188,23 @@ export default function CheckoutPage() {
   }
 
   return (
-    <div className="max-w-lg mx-auto px-4 py-5 pb-32 min-h-screen relative">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-1">
-        <h1 className="text-2xl font-black text-foreground">Checkout</h1>
+    <div className="min-h-screen bg-background">
+      <div className="sticky top-0 z-10 bg-background border-b border-border px-4 py-3 flex items-center gap-3">
+        <Link href="/cart">
+          <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors">
+            <ChevronLeft className="w-5 h-5 text-foreground" />
+          </button>
+        </Link>
+        <span className="text-base font-black text-foreground">KRY<span className="text-primary">ROS</span></span>
+        <div className="flex-1" />
         <div className="flex items-center gap-1.5 text-xs text-primary font-semibold">
           <Lock className="w-3.5 h-3.5" /> Secure
         </div>
+      </div>
+    <div className="max-w-lg mx-auto px-4 py-5 pb-32 relative">
+      {/* Header */}
+      <div className="flex items-center justify-between mb-1">
+        <h1 className="text-2xl font-black text-foreground">Checkout</h1>
       </div>
       <p className="text-xs text-muted-foreground mb-5">Complete your order in a few easy steps</p>
 
@@ -720,6 +730,7 @@ export default function CheckoutPage() {
           </div>
         </div>
       )}
+    </div>
     </div>
   );
 }

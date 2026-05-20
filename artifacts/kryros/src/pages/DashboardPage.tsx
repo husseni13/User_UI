@@ -383,7 +383,7 @@ export default function DashboardPage() {
                   Shop now and pay later with flexible plans that suit you.
                 </p>
                 <Link href="/get-now">
-                  <button className="px-5 py-2.5 bg-white text-foreground rounded-xl font-bold text-sm hover:bg-white/90 transition-all">
+                  <button className="px-5 py-2.5 bg-white text-gray-900 rounded-xl font-bold text-sm hover:bg-white/90 transition-all">
                     Explore Plans
                   </button>
                 </Link>

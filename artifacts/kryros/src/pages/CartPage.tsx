@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { motion, AnimatePresence } from "framer-motion";
-import { Minus, Plus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, ChevronLeft } from "lucide-react";
 import { toast } from "sonner";
 import { useCartStore } from "@/store/cartStore";
 
@@ -11,8 +11,25 @@ export default function CartPage() {
   const shipping = subtotal >= 100 ? 0 : 9.99;
   const total = subtotal + shipping;
 
+  const TopBar = () => (
+    <div className="sticky top-0 z-10 bg-background border-b border-border px-4 py-3 flex items-center gap-3">
+      <Link href="/shop">
+        <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors">
+          <ChevronLeft className="w-5 h-5 text-foreground" />
+        </button>
+      </Link>
+      <span className="text-base font-black text-foreground">KRY<span className="text-primary">ROS</span></span>
+      <div className="flex-1" />
+      <Link href="/shop">
+        <span className="text-xs text-primary font-semibold hover:underline">Continue Shopping</span>
+      </Link>
+    </div>
+  );
+
   if (items.length === 0) {
     return (
+      <div className="min-h-screen bg-background">
+        <TopBar />
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-20 text-center">
         <div className="w-24 h-24 rounded-full bg-muted flex items-center justify-center mx-auto mb-6">
           <ShoppingBag className="w-12 h-12 text-muted-foreground" />
@@ -25,10 +42,13 @@ export default function CartPage() {
           </button>
         </Link>
       </div>
+      </div>
     );
   }
 
   return (
+    <div className="min-h-screen bg-background">
+      <TopBar />
     <div className="max-w-7xl mx-auto px-4 md:px-6 py-6 pb-24 md:pb-10">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl md:text-3xl font-black text-foreground">
@@ -126,6 +146,7 @@ export default function CartPage() {
           </div>
         </div>
       </div>
+    </div>
     </div>
   );
 }

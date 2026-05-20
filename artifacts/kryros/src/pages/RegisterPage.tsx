@@ -35,7 +35,7 @@ export default function RegisterPage() {
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <h1 className="text-2xl font-black text-foreground mb-1">Create Account</h1>
-                <p className="text-xs text-muted-foreground leading-snug">Join KRYROS and enjoy premium shopping<br />experience</p>
+                <p className="text-xs text-muted-foreground leading-snug">Join KRYROS and enjoy premium shopping experience</p>
               </div>
               {/* Icon block */}
               <div className="w-20 h-20 flex-shrink-0 ml-2 relative">

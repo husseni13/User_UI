@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Search, ChevronRight, Headphones, CheckCircle, Truck, MapPin } from "lucide-react";
+import { Link } from "wouter";
+import { Search, ChevronLeft, ChevronRight, Headphones, CheckCircle, Truck, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 
 const statusColors: Record<string, string> = {
@@ -42,6 +43,19 @@ export default function TrackOrderPage() {
   });
 
   return (
+    <div className="min-h-screen bg-background">
+      <div className="sticky top-0 z-10 bg-background border-b border-border px-4 py-3 flex items-center gap-3">
+        <Link href="/shop">
+          <button className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-muted transition-colors">
+            <ChevronLeft className="w-5 h-5 text-foreground" />
+          </button>
+        </Link>
+        <span className="text-base font-black text-foreground">KRY<span className="text-primary">ROS</span></span>
+        <div className="flex-1" />
+        <Link href="/">
+          <span className="text-xs text-primary font-semibold hover:underline">Home</span>
+        </Link>
+      </div>
     <div className="max-w-2xl mx-auto px-4 py-5 pb-28">
       <h1 className="text-2xl font-black text-foreground mb-0.5">Track Order</h1>
       <p className="text-muted-foreground text-xs mb-5">Stay updated with your order status in real time</p>
@@ -167,6 +181,7 @@ export default function TrackOrderPage() {
           Contact Support
         </button>
       </div>
+    </div>
     </div>
   );
 }
