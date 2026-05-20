@@ -249,22 +249,23 @@ export default function DashboardPage() {
             <p className="text-sm text-muted-foreground">Welcome back, Alex! 👋</p>
           </div>
 
-          {/* 4 Stat cards */}
+          {/* 4 Stat cards — compact horizontal rectangles */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
             {[
-              { icon: ShoppingBag, label: "Total Orders", value: "24", sub: "View all orders →", href: "/track", iconBg: "#e6faf8", iconColor: "#0d9488" },
-              { icon: Heart, label: "Wishlist Items", value: "18", sub: "View wishlist →", href: "/shop", iconBg: "#fdf2f8", iconColor: "#ec4899" },
-              { icon: Zap, label: "Get Now Credit", value: "$2,450.00", sub: "View plans →", href: "/get-now", iconBg: "#fff7ed", iconColor: "#f97316" },
-              { icon: MapPin, label: "Saved Addresses", value: "4", sub: "Manage addresses →", href: "/dashboard", iconBg: "#f5f3ff", iconColor: "#8b5cf6" },
-            ].map(({ icon: Icon, label, value, sub, href, iconBg, iconColor }) => (
+              { icon: ShoppingBag, label: "Total Orders", value: "24", href: "/track", iconBg: "#e6faf8", iconColor: "#0d9488" },
+              { icon: Heart, label: "Wishlist Items", value: "18", href: "/shop", iconBg: "#fdf2f8", iconColor: "#ec4899" },
+              { icon: Zap, label: "Get Now Credit", value: "$2,450", href: "/get-now", iconBg: "#fff7ed", iconColor: "#f97316" },
+              { icon: MapPin, label: "Addresses", value: "4", href: "/dashboard", iconBg: "#f5f3ff", iconColor: "#8b5cf6" },
+            ].map(({ icon: Icon, label, value, href, iconBg, iconColor }) => (
               <Link key={label} href={href}>
-                <div className="bg-card border border-border rounded-2xl p-5 hover:shadow-md hover:border-primary/20 transition-all cursor-pointer h-full">
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-4" style={{ background: iconBg }}>
-                    <Icon style={{ width: 26, height: 26, color: iconColor }} />
+                <div className="bg-card border border-border rounded-xl px-3 py-3 flex items-center gap-3 hover:shadow-sm hover:border-primary/20 transition-all cursor-pointer">
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style={{ background: iconBg }}>
+                    <Icon style={{ width: 18, height: 18, color: iconColor }} />
                   </div>
-                  <p className="text-xs text-muted-foreground mb-1">{label}</p>
-                  <p className="text-xl font-black text-foreground mb-2 leading-tight">{value}</p>
-                  <p className="text-xs font-semibold text-primary">{sub}</p>
+                  <div className="min-w-0">
+                    <p className="text-[10px] text-muted-foreground leading-tight truncate">{label}</p>
+                    <p className="text-base font-black text-foreground leading-tight">{value}</p>
+                  </div>
                 </div>
               </Link>
             ))}

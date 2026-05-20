@@ -20,28 +20,12 @@ export default function LoginPage() {
         <div className="bg-card border border-border rounded-3xl overflow-hidden shadow-xl">
 
           {/* Top section */}
-          <div className="relative bg-card px-6 pt-6 pb-4 overflow-hidden border-b border-border">
-            <div className="flex items-start justify-between">
-              <div>
-                <Link href="/">
-                  <span className="text-xl font-black tracking-tight text-foreground cursor-pointer">KRY<span className="text-primary">ROS</span></span>
-                </Link>
-                <h1 className="text-2xl font-black text-foreground mt-4 mb-1">Welcome Back</h1>
-                <p className="text-xs text-muted-foreground">Login to continue shopping with KRYROS</p>
-              </div>
-              {/* Product collage */}
-              <div className="relative w-28 h-24 flex-shrink-0 ml-2">
-                <div className="absolute right-0 top-0 w-16 h-20 rounded-xl overflow-hidden bg-primary shadow-md flex items-end justify-center pb-1">
-                  <span className="text-[10px] font-black text-white">KRYROS</span>
-                </div>
-                <div className="absolute left-0 bottom-0 w-11 h-11 rounded-xl overflow-hidden bg-card shadow-md border border-border">
-                  <img src="https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=100&q=80" alt="headphones" className="w-full h-full object-cover" />
-                </div>
-                <div className="absolute right-5 bottom-0 w-9 h-9 rounded-xl overflow-hidden bg-card shadow-md border border-border">
-                  <img src="https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=100&q=80" alt="watch" className="w-full h-full object-cover" />
-                </div>
-              </div>
-            </div>
+          <div className="relative bg-card px-6 pt-6 pb-5 overflow-hidden border-b border-border">
+            <Link href="/">
+              <span className="text-xl font-black tracking-tight text-foreground cursor-pointer">KRY<span className="text-primary">ROS</span></span>
+            </Link>
+            <h1 className="text-2xl font-black text-foreground mt-4 mb-1 whitespace-nowrap">Welcome Back</h1>
+            <p className="text-xs text-muted-foreground">Login to continue shopping with KRYROS</p>
           </div>
 
           <form onSubmit={handleSubmit} className="px-6 py-5 space-y-4 bg-card">
