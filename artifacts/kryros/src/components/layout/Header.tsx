@@ -4,6 +4,7 @@ import { Search, ShoppingBag, Heart, User, Sun, Moon, Globe, Menu, Mic, ChevronD
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useThemeStore } from "@/store/themeStore";
+import { useSidebarStore } from "@/store/sidebarStore";
 import Sidebar from "./Sidebar";
 
 const desktopNav = [
@@ -17,7 +18,7 @@ const desktopNav = [
 ];
 
 export default function Header() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { open: sidebarOpen, setOpen: setSidebarOpen } = useSidebarStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [location] = useLocation();
   const items = useCartStore((s) => s.items);

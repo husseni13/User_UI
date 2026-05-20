@@ -1,11 +1,13 @@
 import { Link, useLocation } from "wouter";
 import { Home, Grid2x2, CreditCard, PackageSearch, ShoppingCart } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
+import { useSidebarStore } from "@/store/sidebarStore";
 import { useEffect, useRef, useState } from "react";
 
 export default function MobileBottomNav() {
   const [location] = useLocation();
   const cartCount = useCartStore((s) => s.items.reduce((acc, i) => acc + i.quantity, 0));
+  const sidebarOpen = useSidebarStore((s) => s.open);
   const [visible, setVisible] = useState(true);
   const lastScrollY = useRef(0);
 
