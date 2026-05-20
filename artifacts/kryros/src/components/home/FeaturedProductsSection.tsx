@@ -127,8 +127,18 @@ export default function FeaturedProductsSection() {
 
   return (
     <section className="max-w-7xl mx-auto px-4 md:px-6 mb-5">
-      {/* Tab row — all in one scrollable row so View All is never clipped */}
-      <div className="flex gap-1.5 overflow-x-auto no-scrollbar mb-3 items-center">
+      {/* Header row: title + View All */}
+      <div className="flex items-center justify-between mb-2">
+        <h2 className="text-sm font-bold text-foreground">Featured Products</h2>
+        <Link href="/shop">
+          <span className="flex items-center gap-0.5 text-[11px] font-semibold whitespace-nowrap" style={{ color: "#0d9488" }}>
+            View All <ChevronRight className="w-3.5 h-3.5" />
+          </span>
+        </Link>
+      </div>
+
+      {/* Filter tabs on their own row */}
+      <div className="flex gap-1.5 overflow-x-auto no-scrollbar mb-3">
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -143,11 +153,6 @@ export default function FeaturedProductsSection() {
             {t.label}
           </button>
         ))}
-        <Link href="/shop">
-          <span className="flex-shrink-0 flex items-center gap-0.5 text-[11px] font-semibold ml-1 whitespace-nowrap pl-2 border-l border-border" style={{ color: "#0d9488" }}>
-            View All <ChevronRight className="w-3.5 h-3.5" />
-          </span>
-        </Link>
       </div>
 
       {/* Horizontal scroll product row */}

@@ -52,7 +52,7 @@ export default function BottomCTA() {
           </p>
           <div className="flex items-center justify-center gap-3 flex-wrap">
             <Link href="/shop">
-              <button className="px-6 py-3 bg-white text-foreground rounded-xl font-bold text-sm hover:bg-white/90 transition-all active:scale-95">
+              <button className="px-6 py-3 bg-white text-gray-900 rounded-xl font-bold text-sm hover:bg-white/90 transition-all active:scale-95">
                 Start Shopping
               </button>
             </Link>

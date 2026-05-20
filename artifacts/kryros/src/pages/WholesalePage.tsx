@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "wouter";
 import { motion } from "framer-motion";
-import { ArrowRight, Tag, Truck, ShieldCheck, Headphones, ShoppingCart, ChevronRight, Heart, LayoutGrid } from "lucide-react";
+import { ArrowRight, Tag, Truck, ShieldCheck, Headphones, ShoppingCart, ChevronRight, Heart, LayoutGrid, Search, ClipboardList, SendHorizonal, CheckCircle2 } from "lucide-react";
 
 const categories = [
   { id: "smartphones", name: "Smartphones", image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=200&q=80" },
@@ -19,10 +19,10 @@ const wholesaleProducts = [
 ];
 
 const steps = [
-  { icon: "🔍", title: "Browse Products", desc: "Explore products available for wholesale" },
-  { icon: "📋", title: "Add to Quote", desc: "Add products to your quote list" },
-  { icon: "📤", title: "Submit Quote", desc: "Our team will review your request" },
-  { icon: "✅", title: "Confirm & Order", desc: "Confirm the quote and place your order" },
+  { icon: Search, title: "Browse Products", desc: "Explore products available for wholesale" },
+  { icon: ClipboardList, title: "Add to Quote", desc: "Add products to your quote list" },
+  { icon: SendHorizonal, title: "Submit Quote", desc: "Our team will review your request" },
+  { icon: CheckCircle2, title: "Confirm & Order", desc: "Confirm the quote and place your order" },
 ];
 
 const features = [
@@ -62,7 +62,7 @@ export default function WholesalePage() {
             <h2 className="text-xl font-black text-primary leading-tight mb-2">Save More!</h2>
             <p className="text-white/50 text-xs mb-4 leading-relaxed">Exclusive wholesale prices on<br />thousands of products.</p>
             <Link href="/shop">
-              <button className="flex items-center gap-2 px-4 py-2 bg-white text-foreground rounded-xl font-bold text-xs hover:bg-white/90 transition-all">
+              <button className="flex items-center gap-2 px-4 py-2 bg-white text-gray-900 rounded-xl font-bold text-xs hover:bg-white/90 transition-all">
                 Explore Products <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </Link>
@@ -182,8 +182,8 @@ export default function WholesalePage() {
           {steps.map((step, i) => (
             <div key={step.title} className="flex items-center flex-1 min-w-0">
               <div className="flex flex-col items-center text-center flex-1 min-w-0 px-0.5">
-                <div className="w-10 h-10 rounded-xl border border-border bg-card flex items-center justify-center mb-2 shadow-sm">
-                  <span className="text-base">{step.icon}</span>
+                <div className="w-10 h-10 rounded-xl border border-border bg-primary/10 flex items-center justify-center mb-2 shadow-sm">
+                  <step.icon className="w-4 h-4 text-primary" />
                 </div>
                 <p className="text-[9px] font-bold text-foreground leading-tight mb-0.5">{i + 1}. {step.title}</p>
                 <p className="text-[8px] text-muted-foreground leading-tight">{step.desc}</p>
