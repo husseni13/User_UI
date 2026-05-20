@@ -115,7 +115,7 @@ export default function Sidebar({ open, onClose }: SidebarProps) {
             <div className="flex-1 overflow-y-auto">
               {activeTab === "menu" ? (
                 <div className="p-4">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3 px-2">Main Navigation</p>
+                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-3 px-2">Browse</p>
                   <div className="space-y-0.5">
                     {menuItems.map(({ label, icon: Icon, href }) => {
                       const isActive = location === href || (href !== "/" && location.startsWith(href));

@@ -26,7 +26,7 @@ export default function LoginPage() {
                 <Link href="/">
                   <span className="text-xl font-black tracking-tight text-foreground cursor-pointer">KRY<span className="text-primary">ROS</span></span>
                 </Link>
-                <h1 className="text-2xl font-black text-foreground mt-4 mb-1">Welcome Back 👋</h1>
+                <h1 className="text-2xl font-black text-foreground mt-4 mb-1">Welcome Back</h1>
                 <p className="text-xs text-muted-foreground">Login to continue shopping with KRYROS</p>
               </div>
               {/* Product collage */}
